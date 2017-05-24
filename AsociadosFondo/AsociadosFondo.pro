@@ -24,8 +24,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        asociadosfondo.cpp
+        asociadosfondo.cpp \
+    login.cpp
 
-HEADERS  += asociadosfondo.h
+HEADERS  += asociadosfondo.h \
+    login.h
 
-FORMS    += asociadosfondo.ui
+FORMS    += asociadosfondo.ui \
+    login.ui
