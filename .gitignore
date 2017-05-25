@@ -5,3 +5,6 @@ build*
 
 # The user configurations
 *.pro.user
+
+# The autosave files
+*.autosave
