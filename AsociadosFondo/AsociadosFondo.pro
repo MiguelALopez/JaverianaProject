@@ -26,12 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         asociadosfondo.cpp \
     login.cpp \
-    registrar.cpp
+    registrar.cpp \
+    estadocreditos.cpp \
+    estadosauxilio.cpp \
+    estadoahorro.cpp
 
 HEADERS  += asociadosfondo.h \
     login.h \
-    registrar.h
+    registrar.h \
+    estadocreditos.h \
+    estadosauxilio.h \
+    estadoahorro.h
 
 FORMS    += asociadosfondo.ui \
     login.ui \
-    registrar.ui
+    registrar.ui \
+    estadocreditos.ui \
+    estadosauxilio.ui \
+    estadoahorro.ui
