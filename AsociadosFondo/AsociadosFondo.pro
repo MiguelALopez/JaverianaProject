@@ -25,10 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         asociadosfondo.cpp \
-    login.cpp
+    login.cpp \
+    registrar.cpp
 
 HEADERS  += asociadosfondo.h \
-    login.h
+    login.h \
+    registrar.h
 
 FORMS    += asociadosfondo.ui \
-    login.ui
+    login.ui \
+    registrar.ui
