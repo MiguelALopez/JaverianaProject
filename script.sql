@@ -74,6 +74,7 @@ CREATE TABLE faq(
 	faq_referencia SERIAL,
 	faq_titulo varchar(30),
 	faq_descripcion varchar,
+	faq_estado varchar,
 	fondo_id bigint,
 	usuario_cedula varchar(20),
 	PRIMARY KEY (faq_referencia),

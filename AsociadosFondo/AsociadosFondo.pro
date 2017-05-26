@@ -37,7 +37,10 @@ SOURCES += main.cpp\
     validador.cpp \
     daofondo.cpp \
     daocredito.cpp \
-    daonotificacion.cpp
+    daonotificacion.cpp \
+    daoahorro.cpp \
+    daoauxilio.cpp \
+    daofaq.cpp
 
 HEADERS  += asociadosfondo.h \
     login.h \
@@ -50,7 +53,10 @@ HEADERS  += asociadosfondo.h \
     validador.h \
     daofondo.h \
     daocredito.h \
-    daonotificacion.h
+    daonotificacion.h \
+    daoauxilio.h \
+    daoahorro.h \
+    daofaq.h
 
 FORMS    += asociadosfondo.ui \
     login.ui \

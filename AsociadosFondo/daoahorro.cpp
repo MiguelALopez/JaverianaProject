@@ -1,6 +1,6 @@
-#include "daocredito.h"
+#include "daoahorro.h"
 
-DAOCredito::DAOCredito()
+DAOAhorro::DAOAhorro()
 {
     qDebug() << "Compiled with Qt Version = " << QT_VERSION_STR;
 
@@ -9,13 +9,13 @@ DAOCredito::DAOCredito()
     db = connection->connect("localhost", "prueba", "postgres", "juand");
 }
 
-DAOCredito::~DAOCredito()
+DAOAhorro::~DAOAhorro()
 {
     connection->disConnect();
     delete connection;
 }
 
-void DAOCredito::CrearCredito(QString params[12]){
+void DAOAhorro::CrearAhorro(QString params[3]){
     if(db->open()) {
 
         QSqlQuery* query = new QSqlQuery(*db);
@@ -23,9 +23,7 @@ void DAOCredito::CrearCredito(QString params[12]){
 
         // insert into empty usuarios table
         if( !query->prepare(
-        QString("INSERT INTO credito( credito_ingreso_familiar, credito_nombre_empresa, credito_telefono_empresa, credito_tiempo_laborando, "
-                "credito_valor_prestamo, credito_total_gastos, credito_plazo_credito, credito_numero_meses,"
-                " credito_valor_aprobacion, credito_fecha, credito_estado, fondo_id, usuario_cedula) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)") ))
+        QString("INSERT INTO ahorro( ahorro_valor, ahorro_fecha, fondo_id, usuario_cedula) VALUES ( ?, ?, 1, ?)") ))
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -34,15 +32,6 @@ void DAOCredito::CrearCredito(QString params[12]){
             query->addBindValue(params[0]);
             query->addBindValue(params[1]);
             query->addBindValue(params[2]);
-            query->addBindValue(params[3]);
-            query->addBindValue(params[4]);
-            query->addBindValue(params[5]);
-            query->addBindValue(params[6]);
-            query->addBindValue(params[7]);
-            query->addBindValue(params[8]);
-            query->addBindValue(params[9]);
-            query->addBindValue(params[10]);
-            query->addBindValue(params[11]);
         }
 
         bool result = connection->executeInsert(query);
@@ -58,37 +47,7 @@ void DAOCredito::CrearCredito(QString params[12]){
     }
 }
 
-void DAOCredito::ActualizarEstado(QString referencia, QString estado){
-    if(db->open()) {
-
-        QSqlQuery* query = new QSqlQuery(*db);
-        query->setForwardOnly(true);
-
-        // Update usuarios
-        if( !query->prepare(QString("UPDATE credito set credito_estado=?, where credito_referencia=? ")) )
-        {
-            qDebug() <<"Error = " << db->lastError().text();
-        }
-        else
-        {
-            query->addBindValue(estado);
-            query->addBindValue(referencia);
-        }
-
-        bool result = connection->executeUpdate(query);
-        if( result )
-            qDebug() << "Successful update";
-        else
-            qDebug() << "Update failed";
-
-        delete query;
-    }
-    else {
-        qDebug() << "Something went Wrong:" << db->lastError().text();
-    }
-}
-
-QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString fechaFin){
+QList<QList<QString>> DAOAhorro::ConsultarAhorro(QString fechaInicio, QString fechaFin){
     QList<QList<QString>> answers;
     if(db->open()) {
 
@@ -96,7 +55,7 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
         query->setForwardOnly(true);
 
         // Select empty usuario table
-        if( !query->prepare(QString("SELECT * from credito where credito_fecha between ? and ? ")) )
+        if( !query->prepare(QString("SELECT * from ahorro where ahorro_fecha between ? and ? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -120,15 +79,6 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
             answer << query->value(2).toString();
             answer << query->value(3).toString();
             answer << query->value(4).toString();
-            answer << query->value(5).toString();
-            answer << query->value(6).toString();
-            answer << query->value(7).toString();
-            answer << query->value(8).toString();
-            answer << query->value(9).toString();
-            answer << query->value(10).toString();
-            answer << query->value(11).toString();
-            answer << query->value(12).toString();
-            answer << query->value(13).toString();
             answers << answer;
         }
 
@@ -141,7 +91,7 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
     return answers;
 }
 
-QList<QList<QString>> DAOCredito::ConsultarCredito(QString cedula){
+QList<QList<QString>> DAOAhorro::ConsultarAhorro(QString cedula){
     QList<QList<QString>> answers;
     if(db->open()) {
 
@@ -149,7 +99,7 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString cedula){
         query->setForwardOnly(true);
 
         // Select empty usuario table
-        if( !query->prepare(QString("SELECT * from credito where usuario_cedula =? ")) )
+        if( !query->prepare(QString("SELECT * from ahorro where usuario_cedula =? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -169,15 +119,6 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString cedula){
             answer << query->value(2).toString();
             answer << query->value(3).toString();
             answer << query->value(4).toString();
-            answer << query->value(5).toString();
-            answer << query->value(6).toString();
-            answer << query->value(7).toString();
-            answer << query->value(8).toString();
-            answer << query->value(9).toString();
-            answer << query->value(10).toString();
-            answer << query->value(11).toString();
-            answer << query->value(12).toString();
-            answer << query->value(13).toString();
             answers << answer;
         }
 
