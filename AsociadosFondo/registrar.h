@@ -15,6 +15,9 @@ public:
     explicit Registrar(QWidget *parent = 0);
     ~Registrar();
 
+private slots:
+    void on_bAceptar_clicked();
+
 private:
     Ui::Registrar *ui;
 };

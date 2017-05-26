@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     estadosauxilio.cpp \
     estadoahorro.cpp \
     connection.cpp \
-    daousuario.cpp
+    daousuario.cpp \
+    validador.cpp
 
 HEADERS  += asociadosfondo.h \
     login.h \
@@ -42,7 +43,8 @@ HEADERS  += asociadosfondo.h \
     estadosauxilio.h \
     estadoahorro.h \
     connection.h \
-    daousuario.h
+    daousuario.h \
+    validador.h
 
 FORMS    += asociadosfondo.ui \
     login.ui \
