@@ -11,10 +11,7 @@ class Connection
 public:
     Connection(const char* driver);
     ~Connection();
-    QSqlDatabase* connect( const QString& server,
-                           const QString& databaseName,
-                           const QString& userName,
-                           const QString& password );
+    QSqlDatabase* connect();
     void disConnect();
 
     int selectRowCountResult(QSqlQuery* query);

@@ -11,11 +11,12 @@ Connection::~Connection()
     delete db;
 }
 
-QSqlDatabase* Connection::connect( const QString& server,
-                                     const QString& databaseName,
-                                     const QString& userName,
-                                     const QString& password )
+QSqlDatabase* Connection::connect()
 {
+    QString server = "localhost";
+    QString databaseName = "prueba";
+    QString userName = "postgres";
+    QString password = "juand";
     db->setConnectOptions();
     db->setHostName(server);
     db->setDatabaseName(databaseName);

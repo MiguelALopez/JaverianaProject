@@ -6,7 +6,7 @@ DAONotificacion::DAONotificacion()
 
     const char* driverName = "QPSQL";
     connection = new Connection(driverName);
-    db = connection->connect("localhost", "prueba", "postgres", "juand");
+    db = connection->connect();
 }
 
 DAONotificacion::~DAONotificacion()
