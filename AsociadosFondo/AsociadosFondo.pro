@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,6 +22,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+CONFIG += console
+CONFIG -= app_bundle
 
 SOURCES += main.cpp\
         asociadosfondo.cpp \
@@ -30,6 +32,8 @@ SOURCES += main.cpp\
     estadocreditos.cpp \
     estadosauxilio.cpp \
     estadoahorro.cpp \
+    connection.cpp \
+    daousuario.cpp \
     validador.cpp
 
 HEADERS  += asociadosfondo.h \
@@ -38,6 +42,8 @@ HEADERS  += asociadosfondo.h \
     estadocreditos.h \
     estadosauxilio.h \
     estadoahorro.h \
+    connection.h \
+    daousuario.h \
     validador.h
 
 FORMS    += asociadosfondo.ui \
