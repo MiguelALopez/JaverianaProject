@@ -4,6 +4,7 @@
 #include "asociadosfondo.h"
 #include "QDebug"
 #include <QMessageBox>
+#include "daousuario.h"
 
 Login::Login(QWidget *parent) :
     QWidget(parent),
@@ -19,15 +20,16 @@ Login::~Login()
 
 void Login::on_bIngresar_clicked()
 {
+    DAOUsuario daoUsuario;
     QString cedula = ui->lCedula->text();
     QString password = ui->lPassword->text();
 
-    if(true){
+    if(daoUsuario.ConsultarLogin(cedula, password)){
         AsociadosFondo *a = new AsociadosFondo(cedula);
         a->show();
         this->close();
     }else{
-        QMessageBox::information(this, "Error","El suuario o contraseña son incorrectos");
+        QMessageBox::information(this, "Error","El usuario o contraseña son incorrectos");
     }
 
 

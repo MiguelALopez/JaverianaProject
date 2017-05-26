@@ -2,9 +2,11 @@
 #include "ui_asociadosfondo.h"
 #include <QIntValidator>
 #include <QDebug>
+#include <QMessageBox>
 #include "estadocreditos.h"
 #include "estadosauxilio.h"
 #include "estadoahorro.h"
+#include "daousuario.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -52,6 +54,17 @@ void AsociadosFondo::on_bSimular_clicked()
     int seguro = ui->lSimSeguro->text().toInt();
     int plataforma = ui->lSimPlataforma->text().toInt();
     int iva = ui->lSimIva->text().toInt();
+
+    double cuota = (double)valorMonto / (double)numCuotas;
+    cuota = cuota + (cuota * ((double)tasa / 100.0));
+
+    valorAdmin = valorAdmin + ((double)valorAdmin * ((double) iva / 100.0));
+    seguro = seguro + ((double)seguro * ((double) iva / 100.0));
+    plataforma = plataforma + ((double)plataforma * ((double) iva / 100.0));
+
+    int total = (cuota * numCuotas) + valorAdmin + seguro + plataforma;
+
+    ui->lSimTotal->setText(QString::number(total));
 
 }
 
@@ -101,6 +114,8 @@ void AsociadosFondo::on_bAhoConsulta_clicked()
 
 void AsociadosFondo::on_bUserGuardar_clicked()
 {
+    QString params[11];
+
     QString nombre = ui->lUserNombre->text();
     QString apellido = ui->lUserApellido->text();
     QString ced = ui->lUserCedula->text();
@@ -112,4 +127,41 @@ void AsociadosFondo::on_bUserGuardar_clicked()
     QString estado = ui->lUserEstadoCivil->text();
     QString correo = ui->lUserCorreo->text();
     QString ingresos = ui->lUserIngresos->text();
+
+    params[0] = ced;
+    params[1] = password;
+    params[2] = nombre;
+    params[3] = apellido;
+    params[4] = fecha;
+    params[5] = telefono;
+    params[6] = direccion;
+    params[7] = sexo;
+    params[8] = estado;
+    params[9] = correo;
+    params[10] = ingresos;
+
+    DAOUsuario daoUsuario;
+    daoUsuario.ActualizarUsuario(params);
+
+    QMessageBox::information(this, "Exito","El usuario fue modificado correctamente");
+}
+
+void AsociadosFondo::on_tabWidget_currentChanged(int index)
+{
+    if(index == 6){
+        DAOUsuario daoUsuario;
+        QList<QString> usuario = daoUsuario.ConsultarUsuario(cedula);
+
+        ui->lUserCedula->setText(usuario[0]);
+        ui->lUserPassword->setText(usuario[1]);
+        ui->lUserNombre->setText(usuario[2]);
+        ui->lUserApellido->setText(usuario[3]);
+        ui->dateUserNacimiento->setDate(QDate().fromString(usuario[4], "YYYY-M-d"));
+        ui->lUserTelefono->setText(usuario[5]);
+        ui->lUserDireccion->setText(usuario[6]);
+        ui->comboUserSexo->setCurrentText(usuario[7]);
+        ui->lUserEstadoCivil->setText(usuario[8]);
+        ui->lUserCorreo->setText(usuario[9]);
+        ui->lUserIngresos->setText(usuario[10]);
+    }
 }

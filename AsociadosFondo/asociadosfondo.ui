@@ -1163,19 +1163,6 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lUserCedula"/>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_37">
-                <property name="text">
-                 <string>Cedula</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="7" column="1">
                <spacer name="verticalSpacer_7">
                 <property name="orientation">
@@ -1201,19 +1188,6 @@
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_39">
-                <property name="text">
-                 <string>Ingresos</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1">
-               <widget class="QLineEdit" name="lUserIngresos"/>
               </item>
               <item row="0" column="1">
                <widget class="QLineEdit" name="lUserNombre"/>
@@ -1255,6 +1229,36 @@
                 </property>
                </widget>
               </item>
+              <item row="6" column="1">
+               <widget class="QLineEdit" name="lUserIngresos"/>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_39">
+                <property name="text">
+                 <string>Ingresos</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="lUserCedula">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_37">
+                <property name="text">
+                 <string>Cedula</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -1267,13 +1271,6 @@
               </sizepolicy>
              </property>
              <layout class="QGridLayout" name="gridLayout_11">
-              <item row="1" column="2">
-               <widget class="QLineEdit" name="lUserPassword">
-                <property name="echoMode">
-                 <enum>QLineEdit::Password</enum>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="1">
                <widget class="QLabel" name="label_42">
                 <property name="text">
@@ -1326,16 +1323,6 @@
               <item row="0" column="2">
                <widget class="QLineEdit" name="lUserApellido"/>
               </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="label_46">
-                <property name="text">
-                 <string>Password</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="5" column="2">
                <spacer name="verticalSpacer_8">
                 <property name="orientation">
@@ -1361,6 +1348,23 @@
                   <string>Femenino</string>
                  </property>
                 </item>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLineEdit" name="lUserPassword">
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_46">
+                <property name="text">
+                 <string>Password</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
                </widget>
               </item>
              </layout>
