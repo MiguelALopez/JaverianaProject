@@ -7,6 +7,7 @@
 #include "estadosauxilio.h"
 #include "estadoahorro.h"
 #include "daousuario.h"
+#include "daofondo.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -46,14 +47,25 @@ void AsociadosFondo::on_bSalir_clicked()
 
 void AsociadosFondo::on_bSimular_clicked()
 {
+    DAOFondo daoFondo;
+    QList<QString> consulta = daoFondo.ConsultarPropiedadesCredito();
+    QList<QString> fondo = daoFondo.ConsultarFondo();
+
     int valorMonto = ui->lSimMonto->text().toInt();
     int numCuotas = ui->lSimNumCuota->text().toInt();
 
-    int tasa = ui->lSimTasa->text().toInt();
-    int valorAdmin = ui->lSimAdmin->text().toInt();
-    int seguro = ui->lSimSeguro->text().toInt();
-    int plataforma = ui->lSimPlataforma->text().toInt();
-    int iva = ui->lSimIva->text().toInt();
+
+    int tasa = consulta[1].toInt();
+    int valorAdmin = consulta[5].toInt();
+    int seguro = consulta[6].toInt();
+    int plataforma = consulta[7].toInt();
+    int iva = fondo[2].toInt();
+
+    ui->lSimTasa->setText(QString::number(tasa));
+    ui->lSimAdmin->setText(QString::number(valorAdmin));
+    ui->lSimSeguro->setText(QString::number(seguro));
+    ui->lSimPlataforma->setText(QString::number(plataforma));
+    ui->lSimIva->setText(QString::number(iva));
 
     double cuota = (double)valorMonto / (double)numCuotas;
     cuota = cuota + (cuota * ((double)tasa / 100.0));
