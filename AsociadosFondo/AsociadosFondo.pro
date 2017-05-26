@@ -29,14 +29,16 @@ SOURCES += main.cpp\
     registrar.cpp \
     estadocreditos.cpp \
     estadosauxilio.cpp \
-    estadoahorro.cpp
+    estadoahorro.cpp \
+    validador.cpp
 
 HEADERS  += asociadosfondo.h \
     login.h \
     registrar.h \
     estadocreditos.h \
     estadosauxilio.h \
-    estadoahorro.h
+    estadoahorro.h \
+    validador.h
 
 FORMS    += asociadosfondo.ui \
     login.ui \
