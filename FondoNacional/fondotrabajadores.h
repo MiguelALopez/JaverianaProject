@@ -15,6 +15,21 @@ public:
     explicit FondoTrabajadores(QWidget *parent = 0);
     ~FondoTrabajadores();
 
+private slots:
+    void on_bCredAceptar_clicked();
+
+    void on_bSalir_clicked();
+
+    void on_bCredActualizar_clicked();
+
+    void on_bAuxActualizar_clicked();
+
+    void on_bAhoActualizar_clicked();
+
+    void on_bOpcGuardar_clicked();
+
+    void on_bFaqActualizar_clicked();
+
 private:
     Ui::FondoTrabajadores *ui;
 };
