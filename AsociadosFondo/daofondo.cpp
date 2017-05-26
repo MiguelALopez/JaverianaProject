@@ -204,6 +204,12 @@ QList<QString> DAOFondo::ConsultarPropiedadesCredito(){
         answer << query->value(0).toString();
         answer << query->value(1).toString();
         answer << query->value(2).toString();
+        answer << query->value(3).toString();
+        answer << query->value(4).toString();
+        answer << query->value(5).toString();
+        answer << query->value(6).toString();
+        answer << query->value(7).toString();
+        answer << query->value(8).toString();
 
         delete query;
         return answer;

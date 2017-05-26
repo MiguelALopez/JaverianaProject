@@ -41,7 +41,9 @@ int main(int argc, char *argv[])
 
     DAOFondo daofondo;
     QList<QString> consulta = daofondo.ConsultarPropiedadesAhorro();
-    QList<QString> fondo = daofondo.ConsultarFondo();
+    for(int i = 0; i<4; i++){
+        qDebug() << consulta[i];
+    }
 
     QApplication a(argc, argv);
 //    AsociadosFondo w;
