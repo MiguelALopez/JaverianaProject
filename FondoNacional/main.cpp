@@ -1,5 +1,7 @@
 #include "fondotrabajadores.h"
 #include <QApplication>
+#include <QString>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {

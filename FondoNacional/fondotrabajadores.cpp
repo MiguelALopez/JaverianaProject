@@ -1,6 +1,14 @@
 #include "fondotrabajadores.h"
+#include "daousuario.h"
 #include "ui_fondotrabajadores.h"
 #include <QIntValidator>
+#include <QDebug>
+#include <QList>
+#include <QDate>
+#include "daocredito.h"
+#include "daoauxilio.h"
+#include "daoahorro.h"
+#include "daofondo.h"
 
 FondoTrabajadores::FondoTrabajadores(QWidget *parent) :
     QMainWindow(parent),
@@ -36,13 +44,27 @@ FondoTrabajadores::~FondoTrabajadores()
 
 void FondoTrabajadores::on_bCredAceptar_clicked()
 {
-    int size;
-    for(int i = 0; i < size; i++){
-        int puntos = 0;
+    QString inicial = ui->dateCredInicial->date().toString("yyyy-MM-dd");
+    QString final = ui->dateCredFinal->date().toString("yyyy-MM-dd");
+    DAOCredito daocredito;
+    QList<QList<QString>> consulta = daocredito.ConsultarCredito(inicial, final, "Pendiente");
 
-        QString cedula;
-        double ingresos;
-        double gastos;
+
+
+    DAOFondo daofondo;
+    QList<QString> consultaFondo = daofondo.ConsultarPropiedadesCredito();
+    int tmax = consultaFondo[3].toInt();
+    double tasa = consultaFondo[1].toDouble();
+    double antig = consultaFondo[4].toDouble();
+    double montomax = consultaFondo[2].toDouble();
+
+    ui->tCreditos->setRowCount(consulta.length());
+    for(int i=0; i<consulta.length(); i++){
+        DAOUsuario daousuario;
+        double ingresos = daousuario.ConsultarUsuario(consulta[i][13])[10].toDouble();
+        double gastos = consulta[i][6].toDouble();
+
+        int puntos = 0;
 
         // Categoria 1
         double disponible = (ingresos - gastos) * 0.25;
@@ -93,10 +115,12 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             puntos += 20;
         }
 
-        if(puntos >= 200){
-            // Se aprueba el credito
+        if((puntos >= 200) && (tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble())){
+            qDebug() << "Se aprueba" << puntos << ((tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble()));
+            DAOCredito daocredito1;
+            daocredito1.ActualizarEstado(consulta[i][0], "Aprobado");
         }else{
-            // Se deniega el credito
+            qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
         }
     }
 }
@@ -108,95 +132,122 @@ void FondoTrabajadores::on_bSalir_clicked()
 
 void FondoTrabajadores::on_bCredActualizar_clicked()
 {
-    QString inicial = ui->dateCredInicial->date().toString("yyyy-M-d");
-    QString final = ui->dateCredFinal->date().toString("yyyy-M-d");
+    QString inicial = ui->dateCredInicial->date().toString("yyyy-MM-dd");
+    QString final = ui->dateCredFinal->date().toString("yyyy-MM-dd");
 
-    int total = 0;
+    DAOCredito daocredito;
+    QList<QList<QString>> consulta = daocredito.ConsultarCredito(inicial, final, "Aprobado");
 
-    int size;
-    for(int i = 0; i < size; i++){
-        QString fecha;
-        QString nombre;
-        QString apellido;
-        QString monto;
-        total += monto.toInt();
+    DAOUsuario daousuario;
+    double total = 0;
 
-        ui->tCreditos->insertRow(ui->tCreditos->rowCount());
-        ui->tCreditos->setItem(ui->tCreditos->rowCount() - 1, 0,
-                               new QTableWidgetItem(fecha));
-        ui->tCreditos->setItem(ui->tCreditos->rowCount() - 1, 1,
-                               new QTableWidgetItem(nombre));
-        ui->tCreditos->setItem(ui->tCreditos->rowCount() - 1, 2,
-                               new QTableWidgetItem(apellido));
-        ui->tCreditos->setItem(ui->tCreditos->rowCount() - 1, 3,
-                               new QTableWidgetItem(monto));
+    ui->tCreditos->setRowCount(consulta.length());
+    qDebug() << "Tiki";
+    for(int i=0; i<consulta.length(); i++){
+        for(int j=0; j<4; j++){
+            QString dato="";
+            if (j==0)
+                dato = consulta[i][10];
+            if (j==1)
+            {
+                dato = daousuario.ConsultarUsuario(consulta[i][13])[2];
+            }
+            if (j==2)
+                dato = daousuario.ConsultarUsuario(consulta[i][13])[3];
+            if (j==3)
+            {
+                dato = consulta[i][5];
+                total += dato.toDouble();
+            }
+
+            ui->tCreditos->setItem(i, j, new QTableWidgetItem(dato));
+        }
     }
+    ui->lCredNumTotal->setText(QString::number(consulta.length()));
+    ui->lCredNumTotal->setEnabled(true);
 
     ui->lCredValorTotal->setText(QString::number(total));
-    ui->lCredNumTotal->setText(QString::number(size));
+    ui->lCredValorTotal->setEnabled(true);
 }
 
 void FondoTrabajadores::on_bAuxActualizar_clicked()
 {
-    QString inicial = ui->dateAuxInit->date().toString("yyyy-M-d");
-    QString final = ui->dateAuxFinal->date().toString("yyyy-M-d");
+    QString inicial = ui->dateAuxInit->date().toString("yyyy-MM-dd");
+    QString final = ui->dateAuxFinal->date().toString("yyyy-MM-dd");
 
-    int total = 0;
+    DAOAuxilio daoauxilio;
+    QList<QList<QString>> consulta = daoauxilio.ConsultarAuxilio(inicial, final, "Aprobado");
 
-    int size;
-    for(int i = 0; i < size; i++){
-        QString fecha;
-        QString nombre;
-        QString apellido;
-        QString tipo;
-        QString monto;
-        total += monto.toInt();
+    DAOUsuario daousuario;
+    double total = 0;
 
-        ui->tAuxilio->insertRow(ui->tAuxilio->rowCount());
-        ui->tAuxilio->setItem(ui->tAuxilio->rowCount() - 1, 0,
-                               new QTableWidgetItem(fecha));
-        ui->tAuxilio->setItem(ui->tAuxilio->rowCount() - 1, 1,
-                               new QTableWidgetItem(nombre));
-        ui->tAuxilio->setItem(ui->tAuxilio->rowCount() - 1, 2,
-                               new QTableWidgetItem(apellido));
-        ui->tAuxilio->setItem(ui->tAuxilio->rowCount() - 1, 3,
-                               new QTableWidgetItem(tipo));
-        ui->tAuxilio->setItem(ui->tAuxilio->rowCount() - 1, 4,
-                               new QTableWidgetItem(monto));
+    ui->tAuxilio->setRowCount(consulta.length());
+    qDebug() << "Tiki";
+    for(int i=0; i<consulta.length(); i++){
+        for(int j=0; j<5; j++){
+            QString dato="";
+            if (j==0)
+                dato = consulta[i][4];
+            if (j==1)
+            {
+                dato = daousuario.ConsultarUsuario(consulta[i][7])[2];
+            }
+            if (j==2)
+                dato = daousuario.ConsultarUsuario(consulta[i][7])[3];
+            if (j==3)
+            {
+                dato = consulta[i][1];
+            }
+            if (j==4)
+            {
+                dato = consulta[i][3];
+                total += dato.toDouble();
+            }
+
+            ui->tAuxilio->setItem(i, j, new QTableWidgetItem(dato));
+        }
     }
-
     ui->lAuxValorTotal->setText(QString::number(total));
-    ui->lAuxNumTotal->setText(QString::number(size));
+    ui->lAuxValorTotal->setEnabled(true);
+    ui->lAuxNumTotal->setText(QString::number(consulta.length()));
+    ui->lAuxNumTotal->setEnabled(true);
 }
 
 void FondoTrabajadores::on_bAhoActualizar_clicked()
 {
-    QString inicial = ui->dateAhoInit->date().toString("yyyy-M-d");
-    QString final = ui->dateAhoFinal->date().toString("yyyy-M-d");
+    QString inicial = ui->dateAhoInit->date().toString("yyyy-MM-dd");
+    QString final = ui->dateAhoFinal->date().toString("yyyy-MM-dd");
 
-    int total = 0;
+    DAOAhorro daoahorro;
+    QList<QList<QString>> consulta = daoahorro.ConsultarAhorro(inicial, final);
 
-    int size;
-    for(int i = 0; i < size; i++){
-        QString fecha;
-        QString nombre;
-        QString apellido;
-        QString monto;
-        total += monto.toInt();
+    DAOUsuario daousuario;
+    double total = 0;
 
-        ui->tAhorro->insertRow(ui->tAhorro->rowCount());
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 0,
-                               new QTableWidgetItem(fecha));
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 1,
-                               new QTableWidgetItem(nombre));
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 2,
-                               new QTableWidgetItem(apellido));
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 3,
-                               new QTableWidgetItem(monto));
+    ui->tAhorro->setRowCount(consulta.length());
+    qDebug() << "Tiki";
+    for(int i=0; i<consulta.length(); i++){
+        for(int j=0; j<4; j++){
+            QString dato="";
+            if (j==0)
+                dato = consulta[i][2];
+            if (j==1)
+            {
+                dato = daousuario.ConsultarUsuario(consulta[i][4])[2];
+            }
+            if (j==2)
+                dato = daousuario.ConsultarUsuario(consulta[i][4])[3];
+            if (j==3)
+            {
+                dato = consulta[i][1];
+                total += dato.toDouble();
+            }
+
+            ui->tAhorro->setItem(i, j, new QTableWidgetItem(dato));
+        }
     }
-
     ui->lAhoValorTotal->setText(QString::number(total));
-    ui->lAhoNumTotal->setText(QString::number(size));
+    ui->lAhoNumTotal->setText(QString::number(consulta.length()));
 }
 
 void FondoTrabajadores::on_bOpcGuardar_clicked()
@@ -221,6 +272,20 @@ void FondoTrabajadores::on_bOpcGuardar_clicked()
     // Caracteristicas de ahorro
     QString minTasaAhorro = ui->lOpcMinTasaAhorro->text();
     QString maxTasaAhorro = ui->lOpcMaxTasaAhorro->text();
+
+    DAOFondo daofondo;
+
+    QString paramsFondo[2] = {smmlv, iva};
+    daofondo.ActualizarFondo(paramsFondo);
+
+    QString paramsCredito[7] = {tasaCredito, valorMax, maxCuotas, antiguedad, valorAdmin, valorSeguro, valorPlataforma};
+    daofondo.ActualizarPropiedadesCredito(paramsCredito);
+
+    QString paramsAuxilio[4] = {tasaCalamidad, tasaEducacion, maxCalamidad, maxAux};
+    daofondo.ActualizarPropiedadesAuxilio(paramsAuxilio);
+
+    QString paramsAhorro[2] = {maxTasaAhorro, minTasaAhorro};
+    daofondo.ActualizarPropiedadesAhorro(paramsAhorro);
 }
 
 void FondoTrabajadores::on_bFaqActualizar_clicked()
@@ -235,5 +300,40 @@ void FondoTrabajadores::on_bFaqActualizar_clicked()
                                new QTableWidgetItem(titulo));
         ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 1,
                                new QTableWidgetItem(descripcion));
+    }
+}
+
+
+
+void FondoTrabajadores::on_tabWidget_currentChanged(int index)
+{
+    if (index == 4){
+        DAOFondo daofondo;
+
+        QList<QString> listaFondo = daofondo.ConsultarFondo();
+        ui->lOpcSmmlv->setText(listaFondo[1]);
+        ui->lOpcIva->setText(listaFondo[2]);
+
+        QList<QString> listaCredito = daofondo.ConsultarPropiedadesCredito();
+        ui->lOpcMaxCuotas->setText(listaCredito[3]);
+        ui->lOpcAntiguedad->setText(listaCredito[4]);
+        ui->lOpcTasaCredito->setText(listaCredito[1]);
+        ui->lOpcValorMax->setText(listaCredito[2]);
+        ui->lOpcValorAdmin->setText(listaCredito[5]);
+        ui->lOpcSeguro->setText(listaCredito[6]);
+        ui->lOpcValorPlataforma->setText(listaCredito[7]);
+
+        QList<QString> listaAuxilio = daofondo.ConsultarPropiedadesAuxilio();
+        qDebug() << "Tiki";
+        ui->lOpcTasaCalamidad->setText(listaAuxilio[1]);
+        ui->lOpcTasaEdu->setText(listaAuxilio[2]);
+        ui->lOpcMaxCalamidad->setText(listaAuxilio[3]);
+        ui->lOpcMaxAux->setText(listaAuxilio[4]);
+        qDebug() << "Tiki2";
+
+        QList<QString> listaAhorro = daofondo.ConsultarPropiedadesAhorro();
+        qDebug() << listaAhorro.length();
+        ui->lOpcMinTasaAhorro->setText(listaAhorro[2]);
+        ui->lOpcMaxTasaAhorro->setText(listaAhorro[1]);
     }
 }

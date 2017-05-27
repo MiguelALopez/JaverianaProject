@@ -16,7 +16,7 @@ public:
     void CrearAuxilio(QString params[11]);
     void ActualizarEstado(QString referencia, QString estado);
     QList<QList<QString>> ConsultarAuxilio(QString cedula);
-    QList<QList<QString>> ConsultarAuxilio(QString fechaInicio, QString fechaFin);
+    QList<QList<QString>> ConsultarAuxilio(QString fechaInicio, QString fechaFin, QString estado);
 };
 
 #endif // DAOAUXILIO_H

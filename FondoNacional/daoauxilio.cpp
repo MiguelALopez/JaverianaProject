@@ -81,7 +81,7 @@ void DAOAuxilio::ActualizarEstado(QString referencia, QString estado){
     }
 }
 
-QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString fechaInicio, QString fechaFin){
+QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString fechaInicio, QString fechaFin, QString estado){
     QList<QList<QString>> answers;
     if(db->open()) {
 
@@ -89,12 +89,13 @@ QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString fechaInicio, QString 
         query->setForwardOnly(true);
 
         // Select empty usuario table
-        if( !query->prepare(QString("SELECT * from auxilio where auxilio_fecha between ? and ? ")) )
+        if( !query->prepare(QString("SELECT * from auxilio where auxilio_estado=? and auxilio_fecha between ? and ? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
         else
         {
+            query->addBindValue(estado);
             query->addBindValue(fechaInicio);
             query->addBindValue(fechaFin);
         }

@@ -30,20 +30,20 @@ SOURCES += main.cpp\
     connection.cpp \
     daoahorro.cpp \
     daoauxilio.cpp \
-    daocredito.cpp \
     daofaq.cpp \
     daofondo.cpp \
     daonotificacion.cpp \
-    daousuario.cpp
+    daousuario.cpp \
+    daocredito.cpp
 
 HEADERS  += fondotrabajadores.h \
     connection.h \
     daoahorro.h \
     daoauxilio.h \
-    daocredito.h \
     daofaq.h \
     daofondo.h \
     daonotificacion.h \
-    daousuario.h
+    daousuario.h \
+    daocredito.h
 
 FORMS    += fondotrabajadores.ui

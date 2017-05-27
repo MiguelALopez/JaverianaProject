@@ -30,6 +30,8 @@ private slots:
 
     void on_bFaqActualizar_clicked();
 
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::FondoTrabajadores *ui;
 };

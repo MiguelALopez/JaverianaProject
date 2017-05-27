@@ -65,7 +65,7 @@ void DAOCredito::ActualizarEstado(QString referencia, QString estado){
         query->setForwardOnly(true);
 
         // Update usuarios
-        if( !query->prepare(QString("UPDATE credito set credito_estado=?, where credito_referencia=? ")) )
+        if( !query->prepare(QString("UPDATE credito set credito_estado=? where credito_referencia=? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -88,7 +88,7 @@ void DAOCredito::ActualizarEstado(QString referencia, QString estado){
     }
 }
 
-QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString fechaFin){
+QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString fechaFin, QString estado){
     QList<QList<QString>> answers;
     if(db->open()) {
 
@@ -96,12 +96,13 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
         query->setForwardOnly(true);
 
         // Select empty usuario table
-        if( !query->prepare(QString("SELECT * from credito where credito_fecha between ? and ? ")) )
+        if( !query->prepare(QString("SELECT * from credito where credito_estado=? and credito_fecha between ? and ? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
         else
         {
+            query->addBindValue(estado);
             query->addBindValue(fechaInicio);
             query->addBindValue(fechaFin);
         }

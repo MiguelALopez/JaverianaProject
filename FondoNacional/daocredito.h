@@ -18,7 +18,7 @@ public:
     bool ConsultarLogin(QString cedula, QString password);
     void ActualizarEstado(QString referencia, QString estado);
     QList<QList<QString>> ConsultarCredito(QString cedula);
-    QList<QList<QString>> ConsultarCredito(QString fechaInicio, QString fechaFin);
+    QList<QList<QString>> ConsultarCredito(QString fechaInicio, QString fechaFin, QString estado);
 };
 
 #endif // DAOCREDITO_H
