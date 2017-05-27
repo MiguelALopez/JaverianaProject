@@ -32,6 +32,8 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_bAuxAceptar_clicked();
+
 private:
     Ui::FondoTrabajadores *ui;
 };

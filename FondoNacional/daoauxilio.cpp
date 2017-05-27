@@ -51,20 +51,23 @@ void DAOAuxilio::CrearAuxilio(QString params[6]){
     }
 }
 
-void DAOAuxilio::ActualizarEstado(QString referencia, QString estado){
+void DAOAuxilio::ActualizarEstado(QString referencia, QString estado, QString monto){
+    QString fechaActual = QDate::currentDate().toString("yyyy-MM-dd");
     if(db->open()) {
 
         QSqlQuery* query = new QSqlQuery(*db);
         query->setForwardOnly(true);
 
         // Update usuarios
-        if( !query->prepare(QString("UPDATE auxilio set auxilio_estado=?, where auxilio_referencia=? ")) )
+        if( !query->prepare(QString("UPDATE auxilio set auxilio_estado=?, auxilio_fecha=?, auxilio_valor_aprobacion=? where auxilio_referencia=? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
         else
         {
             query->addBindValue(estado);
+            query->addBindValue(fechaActual);
+            query->addBindValue(monto);
             query->addBindValue(referencia);
         }
 
@@ -127,6 +130,47 @@ QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString fechaInicio, QString 
         qDebug() << "Something went Wrong:" << db->lastError().text();
     }
     return answers;
+}
+
+double DAOAuxilio::CuentaAuxilios(){
+    double answer = 0;
+    QString annoActual = QDate::currentDate().toString("yyyy");
+    QString fechaInicio = annoActual + "-01-01";
+    QString fechaFin = annoActual + "-12-31";
+    if(db->open()) {
+
+        QSqlQuery* query = new QSqlQuery(*db);
+        query->setForwardOnly(true);
+
+        // Select empty usuario table
+        if( !query->prepare(QString("SELECT sum(auxilio_valor_aprobacion) FROM auxilio WHERE auxilio_estado = 'Aprobado' and auxilio_fecha BETWEEN ? and ?")) )
+        {
+            qDebug() <<"Error = " << db->lastError().text();
+        }
+        else
+        {
+            query->addBindValue(fechaInicio);
+            query->addBindValue(fechaFin);
+        }
+
+        bool result = connection->executeSelect(query);
+        if( result )
+            qDebug() << "Successful select";
+        else
+            qDebug() << "Select failed";
+
+        while(query->next()){
+            answer = query->value(0).toDouble();
+            qDebug() << query->value(0);
+        }
+
+        delete query;
+        return answer;
+    }
+    else {
+        qDebug() << "Something went Wrong:" << db->lastError().text();
+    }
+    return answer;
 }
 
 QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString cedula){

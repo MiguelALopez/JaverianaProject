@@ -49,15 +49,12 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
     DAOCredito daocredito;
     QList<QList<QString>> consulta = daocredito.ConsultarCredito(inicial, final, "Pendiente");
 
-
-
     DAOFondo daofondo;
     QList<QString> consultaFondo = daofondo.ConsultarPropiedadesCredito();
     int tmax = consultaFondo[3].toInt();
     double antig = consultaFondo[4].toDouble();
     double montomax = consultaFondo[2].toDouble();
 
-    ui->tCreditos->setRowCount(consulta.length());
     for(int i=0; i<consulta.length(); i++){
         DAOUsuario daousuario;
         double ingresos = daousuario.ConsultarUsuario(consulta[i][13])[10].toDouble();
@@ -122,6 +119,54 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
         }
     }
+}
+
+void FondoTrabajadores::on_bAuxAceptar_clicked()
+{
+    QString inicial = ui->dateAuxInit->date().toString("yyyy-MM-dd");
+    QString final = ui->dateAuxFinal->date().toString("yyyy-MM-dd");
+
+    DAOAuxilio daoauxilio;
+    QList<QList<QString>> consulta = daoauxilio.ConsultarAuxilio(inicial, final, "Pendiente");
+
+    DAOFondo daofondo;
+    QList<QString> consultaFondo = daofondo.ConsultarPropiedadesAuxilio();
+    double maxValor = consultaFondo[4].toDouble();
+
+    double smmlv = daofondo.ConsultarFondo()[1].toDouble();
+
+
+    for(int i=0; i<consulta.length(); i++){
+        DAOAuxilio daoauxilio2;
+        double cuenta = daoauxilio2.CuentaAuxilios();
+
+        double monto = 0;
+        QString ed = "Educativo";
+        QString cal = "Calamidad";
+        if (consulta[i][1] == ed){
+            monto = smmlv * 0.2;
+        } else if (consulta[i][1] == cal){
+            if (consulta[i][2].toDouble() * 0.5 >= smmlv * 2.0)
+                monto = smmlv*2.0;
+            else
+                monto = consulta[i][2].toDouble() * 0.5;
+        }
+        else {
+            monto = maxValor + 1;
+        }
+
+        if((maxValor>=cuenta+monto) && (qrand() % 2 == 1))
+        {
+            qDebug() << (maxValor>=cuenta) << (qrand() % 2 == 1);
+            daoauxilio2.ActualizarEstado(consulta[i][0], "Aprobado", QString::number(monto));
+        }
+        else
+        {
+            qDebug() << (maxValor>=cuenta) << (qrand() % 2);
+            qDebug() << cuenta;
+        }
+    }
+
 }
 
 void FondoTrabajadores::on_bSalir_clicked()

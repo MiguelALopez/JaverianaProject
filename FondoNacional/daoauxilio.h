@@ -14,9 +14,10 @@ public:
     QSqlDatabase* db;
     Connection* connection;
     void CrearAuxilio(QString params[11]);
-    void ActualizarEstado(QString referencia, QString estado);
+    void ActualizarEstado(QString referencia, QString estado, QString monto);
     QList<QList<QString>> ConsultarAuxilio(QString cedula);
     QList<QList<QString>> ConsultarAuxilio(QString fechaInicio, QString fechaFin, QString estado);
+    double CuentaAuxilios();
 };
 
 #endif // DAOAUXILIO_H
