@@ -12,6 +12,7 @@
 #include "daocredito.h"
 #include "daoauxilio.h"
 #include "daonotificacion.h"
+#include "daoahorro.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -59,26 +60,27 @@ void AsociadosFondo::on_bSimular_clicked()
     int numCuotas = ui->lSimNumCuota->text().toInt();
 
 
-    int tasa = consulta[1].toInt();
-    int valorAdmin = consulta[5].toInt();
-    int seguro = consulta[6].toInt();
-    int plataforma = consulta[7].toInt();
-    int iva = fondo[2].toInt();
+    double tasa = consulta[1].toFloat();
+    double valorAdmin = consulta[5].toDouble();
+    double seguro = consulta[6].toDouble();
+    double plataforma = consulta[7].toDouble();
+    double iva = fondo[2].toDouble();
+
+    float cuota = (float)valorMonto / (float)numCuotas;
+    cuota = cuota + (cuota * ((float)tasa / 100.0));
+
+    valorAdmin = valorAdmin + ((float)valorAdmin * ((float) iva / 100.0));
+    seguro = seguro + ((float)seguro * ((float) iva / 100.0));
+    plataforma = plataforma + ((float)plataforma * ((float) iva / 100.0));
+
+    int total = (cuota * numCuotas) + valorAdmin + seguro + plataforma;
 
     ui->lSimTasa->setText(QString::number(tasa));
     ui->lSimAdmin->setText(QString::number(valorAdmin));
     ui->lSimSeguro->setText(QString::number(seguro));
     ui->lSimPlataforma->setText(QString::number(plataforma));
+    ui->lSimValorCuota->setText(QString::number(cuota, 'g', 15));
     ui->lSimIva->setText(QString::number(iva));
-
-    double cuota = (double)valorMonto / (double)numCuotas;
-    cuota = cuota + (cuota * ((double)tasa / 100.0));
-
-    valorAdmin = valorAdmin + ((double)valorAdmin * ((double) iva / 100.0));
-    seguro = seguro + ((double)seguro * ((double) iva / 100.0));
-    plataforma = plataforma + ((double)plataforma * ((double) iva / 100.0));
-
-    int total = (cuota * numCuotas) + valorAdmin + seguro + plataforma;
 
     ui->lSimTotal->setText(QString::number(total));
 
@@ -117,10 +119,16 @@ void AsociadosFondo::on_bAuxSolicitud_clicked()
 
 void AsociadosFondo::on_bAhoAdiccionar_clicked()
 {
-    QString ahorro = ui->lAhoTotal->text();
+    QString valor = ui->lAhoTotal->text();
     QString fecha = QDate::currentDate().toString("yyyy-M-d");
 
-    qDebug() << fecha;
+    QString data[3];
+    data[0] = valor;
+    data[1] = fecha;
+    data[2] = cedula;
+
+    DAOAhorro daoAhorro;
+    daoAhorro.CrearAhorro(data);
 }
 
 void AsociadosFondo::on_bCredConsulta_clicked()
@@ -167,7 +175,7 @@ void AsociadosFondo::on_bUserGuardar_clicked()
     QString apellido = ui->lUserApellido->text();
     QString ced = ui->lUserCedula->text();
     QString password = ui->lUserPassword->text();
-    QString fecha = ui->dateUserNacimiento->text().toString("yyyy-MM-dd");
+    QString fecha = ui->dateUserNacimiento->text();
     QString telefono = ui->lUserTelefono->text();
     QString direccion = ui->lUserDireccion->text();
     QString sexo = ui->comboUserSexo->currentText();
@@ -210,5 +218,33 @@ void AsociadosFondo::on_tabWidget_currentChanged(int index)
         ui->lUserEstadoCivil->setText(usuario[8]);
         ui->lUserCorreo->setText(usuario[9]);
         ui->lUserIngresos->setText(usuario[10]);
+    }else if(index == 3){
+        DAOFondo daoFondo;
+        QList<QString> ahorro = daoFondo.ConsultarPropiedadesAhorro();
+
+        DAOUsuario daoUsuario;
+        QList<QString> usuario = daoUsuario.ConsultarUsuario(cedula);
+
+        ui->lAhoSalario->setText(usuario[10]);
+        ui->sAhoTasa->setMinimum(ahorro[2].toInt());
+        ui->sAhoTasa->setMaximum(ahorro[1].toInt());
+        double tasa = (double)ui->sAhoTasa->value() / 100;
+        double salario = usuario[10].toInt();
+        double aho = (salario * tasa);
+        salario -= aho;
+        ui->lAhoSalarioFinal->setText(QString::number(salario, 'g', 15));
+        ui->lAhoTotal->setText(QString::number(aho, 'g', 15));
+
     }
+}
+
+void AsociadosFondo::on_sAhoTasa_valueChanged(int arg1)
+{
+    double salario = ui->lAhoSalario->text().toDouble();
+    double tasa = (double)arg1 / 100.0;
+    double ahorro = salario * tasa;
+    double salarioFinal = salario - ahorro;
+
+    ui->lAhoSalarioFinal->setText(QString::number(salarioFinal, 'g', 15));
+    ui->lAhoTotal->setText(QString::number(ahorro, 'g', 15));
 }
