@@ -24,12 +24,12 @@ CREATE TABLE fondo(
 
 DROP TABLE IF EXISTS notificacion CASCADE;
 CREATE TABLE notificacion(
-	notifacacion_id SERIAL,
-	notifacacion_titulo varchar(20),
-	notifacacion_descripcion varchar,
-	notifacacion_fecha date,
+	notificacion_id SERIAL,
+	notificacion_titulo varchar(20),
+	notificacion_descripcion varchar,
+	notificacion_fecha date,
 	usuario_cedula varchar(20),
-	PRIMARY KEY (notifacacion_id),
+	PRIMARY KEY (notificacion_id),
 	FOREIGN KEY (usuario_cedula) REFERENCES usuario(usuario_cedula)
 );
 
