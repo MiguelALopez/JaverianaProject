@@ -3,11 +3,14 @@
 #include <QIntValidator>
 #include <QDebug>
 #include <QMessageBox>
+#include <QDate>
 #include "estadocreditos.h"
 #include "estadosauxilio.h"
 #include "estadoahorro.h"
 #include "daousuario.h"
 #include "daofondo.h"
+#include "daocredito.h"
+#include "daoauxilio.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -90,12 +93,25 @@ void AsociadosFondo::on_bCredSolicitud_clicked()
     QString valorPrestamo = ui->lCredPrestamo->text();
     QString plazoCredito = ui->lCredPlazo->text();
     QString fondoMeses = ui->lCredMeses->text();
+    QString fechaActual = QDate::currentDate().toString("yyyy-MM-dd");
+    qDebug() << fechaActual;
+
+    DAOCredito daocredito;
+    QString params[12] = {ingresoFamiliar, nombreEmpresa, telefonoEmpresa, tiempoLaborando, valorPrestamo, totalGastos, plazoCredito,
+                      fondoMeses, "0", fechaActual, "Pendiente", cedula};
+    daocredito.CrearCredito(params);
+
 }
 
 void AsociadosFondo::on_bAuxSolicitud_clicked()
 {
     QString tipoAux = ui->cAuxTipo->currentText();
     QString valor = ui->lAuxValor->text();
+    QString fechaActual = QDate::currentDate().toString("yyyy-MM-dd");
+
+    DAOAuxilio daoauxilio;
+    QString params[6] = {tipoAux, valor, "0", fechaActual, "Pendiente", cedula};
+    daoauxilio.CrearAuxilio(params);
 }
 
 void AsociadosFondo::on_bAhoAdiccionar_clicked()
@@ -108,19 +124,19 @@ void AsociadosFondo::on_bAhoAdiccionar_clicked()
 
 void AsociadosFondo::on_bCredConsulta_clicked()
 {
-    EstadoCreditos *c = new EstadoCreditos();
+    EstadoCreditos *c = new EstadoCreditos(cedula);
     c->show();
 }
 
 void AsociadosFondo::on_bAuxConsulta_clicked()
 {
-    EstadosAuxilio *a = new EstadosAuxilio();
+    EstadosAuxilio *a = new EstadosAuxilio(cedula);
     a->show();
 }
 
 void AsociadosFondo::on_bAhoConsulta_clicked()
 {
-    EstadoAhorro *a = new EstadoAhorro();
+    EstadoAhorro *a = new EstadoAhorro(cedula);
     a->show();
 }
 

@@ -12,11 +12,15 @@ class EstadosAuxilio : public QWidget
     Q_OBJECT
 
 public:
-    explicit EstadosAuxilio(QWidget *parent = 0);
+    explicit EstadosAuxilio(QString cedula, QWidget *parent = 0);
     ~EstadosAuxilio();
+
+private slots:
+    void on_bActualizar_clicked();
 
 private:
     Ui::EstadosAuxilio *ui;
+    QString cedula;
 };
 
 #endif // ESTADOSAUXILIO_H

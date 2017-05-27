@@ -36,12 +36,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Fecha</string>
+       <string>Estado</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>Valor aprovación</string>
+       <string>Valor aprobación</string>
       </property>
      </column>
     </widget>

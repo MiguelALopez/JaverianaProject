@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
 //    login = daousuario.ConsultarLogin("1263", "helado");
 //    qDebug() << "Login attempt: " << login;
 
-    DAOFondo daofondo;
-    QList<QString> consulta = daofondo.ConsultarPropiedadesAhorro();
-    for(int i = 0; i<4; i++){
-        qDebug() << consulta[i];
-    }
+//    DAOFondo daofondo;
+//    QList<QString> consulta = daofondo.ConsultarPropiedadesAhorro();
+//    for(int i = 0; i<4; i++){
+//        qDebug() << consulta[i];
+//    }
 
     QApplication a(argc, argv);
 //    AsociadosFondo w;

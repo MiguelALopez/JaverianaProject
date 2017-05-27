@@ -15,7 +15,7 @@ DAONotificacion::~DAONotificacion()
     delete connection;
 }
 
-void DAONotificacion::CrearNotificacion(QString params[3]){
+void DAONotificacion::CrearNotificacion(QString params[4]){
     if(db->open()) {
 
         QSqlQuery* query = new QSqlQuery(*db);
@@ -23,7 +23,7 @@ void DAONotificacion::CrearNotificacion(QString params[3]){
 
         // insert into empty usuarios table
         if( !query->prepare(
-        QString("INSERT INTO notificacion( notifacion_titulo, notifacion_descripcion, usuario_cedula) VALUES ( ?, ?, ?)") ))
+        QString("INSERT INTO notificacion( notifacion_titulo, notifacion_descripcion, notificacion_fecha, usuario_cedula) VALUES ( ?, ?, ?, ?)") ))
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -32,6 +32,7 @@ void DAONotificacion::CrearNotificacion(QString params[3]){
             query->addBindValue(params[0]);
             query->addBindValue(params[1]);
             query->addBindValue(params[2]);
+            query->addBindValue(params[3]);
         }
 
         bool result = connection->executeInsert(query);
@@ -74,6 +75,7 @@ QList<QList<QString>> DAONotificacion::ConsultarNotificacion(QString cedula){
             answer << query->value(1).toString();
             answer << query->value(2).toString();
             answer << query->value(3).toString();
+            answer << query->value(4).toString();
             answers << answer;
         }
 

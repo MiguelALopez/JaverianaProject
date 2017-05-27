@@ -27,6 +27,7 @@ CREATE TABLE notificacion(
 	notifacacion_id SERIAL,
 	notifacion_titulo varchar(20),
 	notifacion_descripcion varchar,
+	notifacion_fecha date,
 	usuario_cedula varchar(20),
 	PRIMARY KEY (notifacacion_id),
 	FOREIGN KEY (usuario_cedula) REFERENCES usuario(usuario_cedula)

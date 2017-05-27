@@ -13,7 +13,7 @@ public:
     ~DAONotificacion();
     QSqlDatabase* db;
     Connection* connection;
-    void CrearNotificacion(QString params[3]);
+    void CrearNotificacion(QString params[4]);
     QList<QList<QString>> ConsultarNotificacion(QString cedula);
 };
 
