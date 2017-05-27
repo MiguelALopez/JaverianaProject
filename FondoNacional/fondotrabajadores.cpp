@@ -54,7 +54,6 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
     DAOFondo daofondo;
     QList<QString> consultaFondo = daofondo.ConsultarPropiedadesCredito();
     int tmax = consultaFondo[3].toInt();
-    double tasa = consultaFondo[1].toDouble();
     double antig = consultaFondo[4].toDouble();
     double montomax = consultaFondo[2].toDouble();
 
@@ -142,7 +141,6 @@ void FondoTrabajadores::on_bCredActualizar_clicked()
     double total = 0;
 
     ui->tCreditos->setRowCount(consulta.length());
-    qDebug() << "Tiki";
     for(int i=0; i<consulta.length(); i++){
         for(int j=0; j<4; j++){
             QString dato="";
@@ -182,7 +180,6 @@ void FondoTrabajadores::on_bAuxActualizar_clicked()
     double total = 0;
 
     ui->tAuxilio->setRowCount(consulta.length());
-    qDebug() << "Tiki";
     for(int i=0; i<consulta.length(); i++){
         for(int j=0; j<5; j++){
             QString dato="";
@@ -225,7 +222,6 @@ void FondoTrabajadores::on_bAhoActualizar_clicked()
     double total = 0;
 
     ui->tAhorro->setRowCount(consulta.length());
-    qDebug() << "Tiki";
     for(int i=0; i<consulta.length(); i++){
         for(int j=0; j<4; j++){
             QString dato="";
@@ -324,12 +320,10 @@ void FondoTrabajadores::on_tabWidget_currentChanged(int index)
         ui->lOpcValorPlataforma->setText(listaCredito[7]);
 
         QList<QString> listaAuxilio = daofondo.ConsultarPropiedadesAuxilio();
-        qDebug() << "Tiki";
         ui->lOpcTasaCalamidad->setText(listaAuxilio[1]);
         ui->lOpcTasaEdu->setText(listaAuxilio[2]);
         ui->lOpcMaxCalamidad->setText(listaAuxilio[3]);
         ui->lOpcMaxAux->setText(listaAuxilio[4]);
-        qDebug() << "Tiki2";
 
         QList<QString> listaAhorro = daofondo.ConsultarPropiedadesAhorro();
         qDebug() << listaAhorro.length();
