@@ -167,7 +167,7 @@ void AsociadosFondo::on_bUserGuardar_clicked()
     QString apellido = ui->lUserApellido->text();
     QString ced = ui->lUserCedula->text();
     QString password = ui->lUserPassword->text();
-    QString fecha = ui->dateUserNacimiento->text();
+    QString fecha = ui->dateUserNacimiento->text().toString("yyyy-MM-dd");
     QString telefono = ui->lUserTelefono->text();
     QString direccion = ui->lUserDireccion->text();
     QString sexo = ui->comboUserSexo->currentText();
