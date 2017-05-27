@@ -65,6 +65,9 @@
                   <day>1</day>
                  </datetime>
                 </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
+                </property>
                </widget>
               </item>
               <item row="0" column="0">
@@ -110,6 +113,9 @@
                   <month>1</month>
                   <day>1</day>
                  </datetime>
+                </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
                 </property>
                </widget>
               </item>
@@ -320,6 +326,9 @@
                   <day>1</day>
                  </datetime>
                 </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -355,6 +364,9 @@
                   <month>1</month>
                   <day>1</day>
                  </datetime>
+                </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
                 </property>
                </widget>
               </item>
@@ -570,6 +582,9 @@
                   <day>1</day>
                  </datetime>
                 </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
+                </property>
                </widget>
               </item>
              </layout>
@@ -605,6 +620,9 @@
                   <month>1</month>
                   <day>1</day>
                  </datetime>
+                </property>
+                <property name="displayFormat">
+                 <string>yyyy-MM-dd</string>
                 </property>
                </widget>
               </item>
