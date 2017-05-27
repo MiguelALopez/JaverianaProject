@@ -106,6 +106,8 @@ void AsociadosFondo::on_bCredSolicitud_clicked()
                       fondoMeses, "0", fechaActual, "Pendiente", cedula};
     daocredito.CrearCredito(params);
 
+    QMessageBox::information(this, "Exito","La solicitud fue enviada con exito");
+
 }
 
 void AsociadosFondo::on_bAuxSolicitud_clicked()
@@ -117,6 +119,7 @@ void AsociadosFondo::on_bAuxSolicitud_clicked()
     DAOAuxilio daoauxilio;
     QString params[6] = {tipoAux, valor, "0", fechaActual, "Pendiente", cedula};
     daoauxilio.CrearAuxilio(params);
+    QMessageBox::information(this, "Exito","La solicitud fue enviada con exito");
 }
 
 void AsociadosFondo::on_bAhoAdiccionar_clicked()
@@ -131,6 +134,7 @@ void AsociadosFondo::on_bAhoAdiccionar_clicked()
 
     DAOAhorro daoAhorro;
     daoAhorro.CrearAhorro(data);
+    QMessageBox::information(this, "Exito","El ahorro se almaceno con exito");
 }
 
 void AsociadosFondo::on_bCredConsulta_clicked()
