@@ -258,6 +258,24 @@ void AsociadosFondo::on_tabWidget_currentChanged(int index)
                 ui->tFaq->setItem(i, j, new QTableWidgetItem(dato));
             }
         }
+    }else if(index == 5){
+        DAONotificacion daoNotificacion;
+        QList<QList<QString>> consulta = daoNotificacion.ConsultarNotificacion(cedula);
+
+        ui->tNotific->setRowCount(consulta.length());
+        for(int i=0; i<consulta.length(); i++){
+            for(int j=0; j<3; j++){
+                QString dato="";
+                if (j==0)
+                    dato = consulta[i][1];
+                if (j==1)
+                    dato = consulta[i][3];
+                if (j==2)
+                    dato = consulta[i][2];
+                ui->tNotific->setItem(i, j, new QTableWidgetItem(dato));
+            }
+        }
+
     }
 }
 
