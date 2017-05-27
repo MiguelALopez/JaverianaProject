@@ -9,6 +9,7 @@
 #include "daoauxilio.h"
 #include "daoahorro.h"
 #include "daofondo.h"
+#include "daonotificacion.h"
 
 FondoTrabajadores::FondoTrabajadores(QWidget *parent) :
     QMainWindow(parent),
@@ -115,8 +116,27 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             qDebug() << "Se aprueba" << puntos << ((tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble()));
             DAOCredito daocredito1;
             daocredito1.ActualizarEstado(consulta[i][0], "Aprobado");
+
+            DAONotificacion daoNotificacion;
+            QString param[4];
+            param[0] = "Aprobación credito";
+            param[1] = "Su credito fue aprobado";
+            param[2] = QDate::currentDate().toString("yyyy-M-d");
+            param[3] = consulta[i][0];
+            daoNotificacion.CrearNotificacion(param);
         }else{
-            qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
+            DAOCredito daocredito1;
+            daocredito1.ActualizarEstado(consulta[i][0], "Rechazado");
+
+            DAONotificacion daoNotificacion;
+            QString param[4];
+            param[0] = "Aprobación credito";
+            param[1] = "Su credito fue rechazado";
+            param[2] = QDate::currentDate().toString("yyyy-M-d");
+            param[3] = consulta[i][0];
+            daoNotificacion.CrearNotificacion(param);
+            qDebug() << "raffo";
+//            qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
         }
     }
 }
@@ -159,11 +179,27 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
         {
             qDebug() << (maxValor>=cuenta) << (qrand() % 2 == 1);
             daoauxilio2.ActualizarEstado(consulta[i][0], "Aprobado", QString::number(monto));
+
+            DAONotificacion daoNotificacion;
+            QString param[4];
+            param[0] = "Aprobación auxilio";
+            param[1] = "Su auxilio fue aprobado";
+            param[2] = QDate::currentDate().toString("yyyy-M-d");
+            param[3] = consulta[i][7];
+            daoNotificacion.CrearNotificacion(param);
         }
         else
         {
             qDebug() << (maxValor>=cuenta) << (qrand() % 2);
             qDebug() << cuenta;
+
+            DAONotificacion daoNotificacion;
+            QString param[4];
+            param[0] = "Aprobación auxilio";
+            param[1] = "Su auxilio fue rechazado";
+            param[2] = QDate::currentDate().toString("yyyy-M-d");
+            param[3] = consulta[i][7];
+            daoNotificacion.CrearNotificacion(param);
         }
     }
 
