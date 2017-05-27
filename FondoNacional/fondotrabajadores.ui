@@ -709,12 +709,12 @@
           </attribute>
           <column>
            <property name="text">
-            <string>Titulo</string>
+            <string>Ref</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>Descripción</string>
+            <string>Pregunta</string>
            </property>
           </column>
          </widget>

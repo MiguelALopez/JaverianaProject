@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     daofondo.cpp \
     daonotificacion.cpp \
     daousuario.cpp \
-    daocredito.cpp
+    daocredito.cpp \
+    resolverpregunta.cpp
 
 HEADERS  += fondotrabajadores.h \
     connection.h \
@@ -44,6 +45,8 @@ HEADERS  += fondotrabajadores.h \
     daofondo.h \
     daonotificacion.h \
     daousuario.h \
-    daocredito.h
+    daocredito.h \
+    resolverpregunta.h
 
-FORMS    += fondotrabajadores.ui
+FORMS    += fondotrabajadores.ui \
+    resolverpregunta.ui

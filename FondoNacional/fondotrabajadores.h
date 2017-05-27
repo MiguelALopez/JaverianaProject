@@ -34,6 +34,8 @@ private slots:
 
     void on_bAuxAceptar_clicked();
 
+    void on_bFaqResolver_clicked();
+
 private:
     Ui::FondoTrabajadores *ui;
 };

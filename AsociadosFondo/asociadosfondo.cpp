@@ -243,7 +243,7 @@ void AsociadosFondo::on_tabWidget_currentChanged(int index)
 
     }else if(index == 4){
         DAOFaq daoFaq;
-        QList<QList<QString>> consulta = daoFaq.ConsultarFaq("Resuelto");
+        QList<QList<QString>> consulta = daoFaq.ConsultarFaq("Resuelta");
 
         ui->tFaq->setRowCount(consulta.length());
         for(int i=0; i<consulta.length(); i++){

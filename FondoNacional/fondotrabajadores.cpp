@@ -10,6 +10,8 @@
 #include "daoahorro.h"
 #include "daofondo.h"
 #include "daonotificacion.h"
+#include "daofaq.h"
+#include "resolverpregunta.h"
 
 FondoTrabajadores::FondoTrabajadores(QWidget *parent) :
     QMainWindow(parent),
@@ -367,16 +369,22 @@ void FondoTrabajadores::on_bOpcGuardar_clicked()
 
 void FondoTrabajadores::on_bFaqActualizar_clicked()
 {
-    int size;
-    for(int i = 0; i < size; i++){
-        QString titulo;
-        QString descripcion;
+    DAOFaq daoFaq;
+    QList<QList<QString>> consulta = daoFaq.ConsultarFaq("Pendiente");
 
-        ui->tAhorro->insertRow(ui->tAhorro->rowCount());
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 0,
-                               new QTableWidgetItem(titulo));
-        ui->tAhorro->setItem(ui->tAhorro->rowCount() - 1, 1,
-                               new QTableWidgetItem(descripcion));
+    ui->tFaq->setRowCount(consulta.length());
+    for(int i=0; i<consulta.length(); i++){
+        for(int j=0; j<4; j++){
+            QString dato="";
+            if (j==0){
+                dato = consulta[i][0];
+            }
+            if (j==1){
+                dato = consulta[i][1];
+            }
+
+            ui->tFaq->setItem(i, j, new QTableWidgetItem(dato));
+        }
     }
 }
 
@@ -410,5 +418,32 @@ void FondoTrabajadores::on_tabWidget_currentChanged(int index)
         qDebug() << listaAhorro.length();
         ui->lOpcMinTasaAhorro->setText(listaAhorro[2]);
         ui->lOpcMaxTasaAhorro->setText(listaAhorro[1]);
+    }else if(index == 3){
+        DAOFaq daoFaq;
+        QList<QList<QString>> consulta = daoFaq.ConsultarFaq("Pendiente");
+
+        ui->tFaq->setRowCount(consulta.length());
+        for(int i=0; i<consulta.length(); i++){
+            for(int j=0; j<4; j++){
+                QString dato="";
+                if (j==0){
+                    dato = consulta[i][0];
+                }
+                if (j==1){
+                    dato = consulta[i][1];
+                }
+
+                ui->tFaq->setItem(i, j, new QTableWidgetItem(dato));
+            }
+        }
     }
+}
+
+void FondoTrabajadores::on_bFaqResolver_clicked()
+{
+    int id = ui->tFaq->item(ui->tFaq->currentRow(),0)->text().toInt();
+    QString pregunta = ui->tFaq->item(ui->tFaq->currentRow(),1)->text();
+    ResolverPregunta *r = new ResolverPregunta(id, pregunta);
+    r->show();
+    qDebug() << ui->tFaq->item(ui->tFaq->currentRow(),0)->text();
 }
