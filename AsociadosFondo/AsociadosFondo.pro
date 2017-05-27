@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     daonotificacion.cpp \
     daoahorro.cpp \
     daoauxilio.cpp \
-    daofaq.cpp
+    daofaq.cpp \
+    pregunta.cpp
 
 HEADERS  += asociadosfondo.h \
     login.h \
@@ -56,11 +57,13 @@ HEADERS  += asociadosfondo.h \
     daonotificacion.h \
     daoauxilio.h \
     daoahorro.h \
-    daofaq.h
+    daofaq.h \
+    pregunta.h
 
 FORMS    += asociadosfondo.ui \
     login.ui \
     registrar.ui \
     estadocreditos.ui \
     estadosauxilio.ui \
-    estadoahorro.ui
+    estadoahorro.ui \
+    pregunta.ui

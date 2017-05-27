@@ -38,6 +38,10 @@ private slots:
 
     void on_tabWidget_currentChanged(int index);
 
+    void on_sAhoTasa_valueChanged(int arg1);
+
+    void on_bFaqPregunta_clicked();
+
 private:
     Ui::AsociadosFondo *ui;
 
