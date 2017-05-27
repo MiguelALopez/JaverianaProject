@@ -11,6 +11,7 @@
 #include "daofondo.h"
 #include "daocredito.h"
 #include "daoauxilio.h"
+#include "daonotificacion.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -138,6 +139,24 @@ void AsociadosFondo::on_bAhoConsulta_clicked()
 {
     EstadoAhorro *a = new EstadoAhorro(cedula);
     a->show();
+}
+
+void AsociadosFondo::on_bNotificActualizar_clicked(){
+    DAONotificacion daonotificacion;
+    QList<QList<QString>> consulta = daonotificacion.ConsultarNotificacion(cedula);
+    ui->tNotific->setRowCount(consulta.length());
+    for(int i=0; i<consulta.length(); i++){
+        for(int j=0; j<3; j++){
+            QString dato="";
+            if (j==0)
+                dato = consulta[i][1];
+            if (j==1)
+                dato = consulta[i][3];
+            if (j==2)
+                dato = consulta[i][2];
+            ui->tNotific->setItem(i, j, new QTableWidgetItem(dato));
+        }
+    }
 }
 
 void AsociadosFondo::on_bUserGuardar_clicked()

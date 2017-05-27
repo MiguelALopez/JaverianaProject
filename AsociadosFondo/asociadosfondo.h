@@ -34,6 +34,8 @@ private slots:
 
     void on_bUserGuardar_clicked();
 
+    void on_bNotificActualizar_clicked();
+
     void on_tabWidget_currentChanged(int index);
 
 private:

@@ -4,6 +4,7 @@
 #include "QDebug"
 #include <QIntValidator>
 #include <QMessageBox>
+#include <QDate>
 #include "daousuario.h"
 
 Registrar::Registrar(QWidget *parent) :
@@ -33,7 +34,7 @@ void Registrar::on_bAceptar_clicked()
     QString apellido = ui->lApellido->text();
     QString cedula = ui->lCedula->text();
     QString password = ui->lPasword->text();
-    QString fecha = ui->dateNacimiento->date().toString();
+    QString fecha = ui->dateNacimiento->date().toString("yyyy-MM-dd");
     QString telefono = ui->lTelefono->text();
     QString direccion = ui->lDireccion->text();
     QString sexo = ui->comboSexo->currentText();
