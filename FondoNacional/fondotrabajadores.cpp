@@ -73,7 +73,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
         }
 
         // Categoria 2
-        int cat2 = qrand() % 30;
+        int cat2 = qrand() % 40;
         if(cat2 <= 5){
             puntos += 10;
         }else if(cat2 <= 11){
@@ -87,7 +87,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
         }
 
         // Categoria 3
-        int cat3 = qrand() % 50;
+        int cat3 = qrand() % 60;
         if(cat3 <= 12){
             puntos += 12;
         }else if(cat3 <=23){
@@ -122,7 +122,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             param[0] = "Aprobación credito";
             param[1] = "Su credito fue aprobado";
             param[2] = QDate::currentDate().toString("yyyy-M-d");
-            param[3] = consulta[i][0];
+            param[3] = consulta[i][13];
             daoNotificacion.CrearNotificacion(param);
         }else{
             DAOCredito daocredito1;
@@ -133,7 +133,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             param[0] = "Aprobación credito";
             param[1] = "Su credito fue rechazado";
             param[2] = QDate::currentDate().toString("yyyy-M-d");
-            param[3] = consulta[i][0];
+            param[3] = consulta[i][13];
             daoNotificacion.CrearNotificacion(param);
             qDebug() << "raffo";
 //            qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
@@ -190,8 +190,8 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
         }
         else
         {
-            qDebug() << (maxValor>=cuenta) << (qrand() % 2);
-            qDebug() << cuenta;
+
+            daoauxilio2.ActualizarEstado(consulta[i][0], "Rechazado", QString::number(monto));
 
             DAONotificacion daoNotificacion;
             QString param[4];
