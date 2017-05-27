@@ -40,6 +40,8 @@ private slots:
 
     void on_sAhoTasa_valueChanged(int arg1);
 
+    void on_bFaqPregunta_clicked();
+
 private:
     Ui::AsociadosFondo *ui;
 

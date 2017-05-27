@@ -7,12 +7,14 @@
 #include "estadocreditos.h"
 #include "estadosauxilio.h"
 #include "estadoahorro.h"
+#include "pregunta.h"
 #include "daousuario.h"
 #include "daofondo.h"
 #include "daocredito.h"
 #include "daoauxilio.h"
 #include "daonotificacion.h"
 #include "daoahorro.h"
+#include "daofaq.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -235,6 +237,23 @@ void AsociadosFondo::on_tabWidget_currentChanged(int index)
         ui->lAhoSalarioFinal->setText(QString::number(salario, 'g', 15));
         ui->lAhoTotal->setText(QString::number(aho, 'g', 15));
 
+    }else if(index == 4){
+        DAOFaq daoFaq;
+        QList<QList<QString>> consulta = daoFaq.ConsultarFaq("Resuelto");
+
+        ui->tFaq->setRowCount(consulta.length());
+        for(int i=0; i<consulta.length(); i++){
+            for(int j=0; j<3; j++){
+                QString dato="";
+                if (j==0)
+                    dato = consulta[i][1];
+                if (j==1)
+                    dato = consulta[i][2];
+                if (j==2)
+                    dato = consulta[i][5];
+                ui->tFaq->setItem(i, j, new QTableWidgetItem(dato));
+            }
+        }
     }
 }
 
@@ -247,4 +266,10 @@ void AsociadosFondo::on_sAhoTasa_valueChanged(int arg1)
 
     ui->lAhoSalarioFinal->setText(QString::number(salarioFinal, 'g', 15));
     ui->lAhoTotal->setText(QString::number(ahorro, 'g', 15));
+}
+
+void AsociadosFondo::on_bFaqPregunta_clicked()
+{
+    Pregunta *p = new Pregunta(cedula);
+    p->show();
 }
