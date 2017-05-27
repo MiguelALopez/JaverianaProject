@@ -23,7 +23,7 @@ void DAONotificacion::CrearNotificacion(QString params[4]){
 
         // insert into empty usuarios table
         if( !query->prepare(
-        QString("INSERT INTO notificacion( notifacion_titulo, notifacion_descripcion, notificacion_fecha, usuario_cedula) VALUES ( ?, ?, ?, ?)") ))
+        QString("INSERT INTO notificacion( notificacion_titulo, notificacion_descripcion, notificacion_fecha, usuario_cedula) VALUES ( ?, ?, ?, ?)") ))
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
