@@ -15,6 +15,7 @@
 #include "daonotificacion.h"
 #include "daoahorro.h"
 #include "daofaq.h"
+#include "validador.h"
 
 AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     QMainWindow(parent),
@@ -116,10 +117,14 @@ void AsociadosFondo::on_bAuxSolicitud_clicked()
     QString valor = ui->lAuxValor->text();
     QString fechaActual = QDate::currentDate().toString("yyyy-MM-dd");
 
-    DAOAuxilio daoauxilio;
-    QString params[6] = {tipoAux, valor, "0", fechaActual, "Pendiente", cedula};
-    daoauxilio.CrearAuxilio(params);
-    QMessageBox::information(this, "Exito","La solicitud fue enviada con exito");
+    if(!valor.toInt()){
+        QMessageBox::information(this, "Error","Debe ingresar un monto correcto");
+    }else{
+        DAOAuxilio daoauxilio;
+        QString params[6] = {tipoAux, valor, "0", fechaActual, "Pendiente", cedula};
+        daoauxilio.CrearAuxilio(params);
+        QMessageBox::information(this, "Exito","La solicitud fue enviada con exito");
+    }
 }
 
 void AsociadosFondo::on_bAhoAdiccionar_clicked()
@@ -135,6 +140,7 @@ void AsociadosFondo::on_bAhoAdiccionar_clicked()
     DAOAhorro daoAhorro;
     daoAhorro.CrearAhorro(data);
     QMessageBox::information(this, "Exito","El ahorro se almaceno con exito");
+
 }
 
 void AsociadosFondo::on_bCredConsulta_clicked()
@@ -201,10 +207,14 @@ void AsociadosFondo::on_bUserGuardar_clicked()
     params[9] = correo;
     params[10] = ingresos;
 
-    DAOUsuario daoUsuario;
-    daoUsuario.ActualizarUsuario(params);
+     if(Validador().validarUsuario(nombre, apellido, cedula, password, telefono, direccion, sexo, estado, correo, ingresos, NULL)){
+         DAOUsuario daoUsuario;
+         daoUsuario.ActualizarUsuario(params);
 
-    QMessageBox::information(this, "Exito","El usuario fue modificado correctamente");
+         QMessageBox::information(this, "Exito","El usuario fue modificado correctamente");
+     }
+
+
 }
 
 void AsociadosFondo::on_tabWidget_currentChanged(int index)

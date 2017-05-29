@@ -16,9 +16,9 @@ public:
     void CrearCredito(QString params[11]);
     QList<QString> ConsultarUsuario(QString cedula);
     bool ConsultarLogin(QString cedula, QString password);
-    void ActualizarEstado(QString referencia, QString estado);
+    void ActualizarEstado(QString referencia, QString estado, QString valor);
     QList<QList<QString>> ConsultarCredito(QString cedula);
-    QList<QList<QString>> ConsultarCredito(QString fechaInicio, QString fechaFin);
+    QList<QList<QString>> ConsultarCredito(QString fechaInicio, QString fechaFin, QString estado);
 };
 
 #endif // DAOCREDITO_H

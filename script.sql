@@ -134,4 +134,4 @@ CREATE TABLE credito(
 INSERT INTO fondo (fondo_smmlv, fondo_iva) VALUES (737717, 16);
 INSERT INTO propiedades_ahorro (propiedades_ahorro_tasamax,propiedades_ahorro_tasamin, fondo_id) VALUES (10, 3, 1);
 INSERT INTO propiedades_credito (propiedades_credito_tasa,propiedades_credito_montomax, propiedades_credito_tiempomax, propiedades_credito_antiguedad, propiedades_credito_administracion, propiedades_credito_seguro, propiedades_credito_valor_plataforma, fondo_id) VALUES (0.9, 42, 48, 1, 20000, 5, 15000, 1);
-INSERT INTO propiedades_auxilio (propiedades_auxilio_tasa_calamidad, propiedades_auxilio_tasa_educacion, propiedades_auxilio_aux_max_calamidad, propiedades_auxilio_valor_max_aux, fondo_id) VALUES (50, 20, 50000000, 2, 1);
+INSERT INTO propiedades_auxilio (propiedades_auxilio_tasa_calamidad, propiedades_auxilio_tasa_educacion, propiedades_auxilio_aux_max_calamidad, propiedades_auxilio_valor_max_aux, fondo_id) VALUES (50, 20, 2, 50000000, 1);

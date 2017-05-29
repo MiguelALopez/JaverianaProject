@@ -112,14 +112,15 @@ QList<QList<QString>> DAOAuxilio::ConsultarAuxilio(QString fechaInicio, QString 
 
         while(query->next()){
             QList<QString> answer;
-            answer << query->value(0).toString();
+            answer << QString::number(query->value(0).toInt(), 'g', 15);
             answer << query->value(1).toString();
-            answer << query->value(2).toString();
-            answer << query->value(3).toString();
+            answer << QString::number(query->value(2).toInt(), 'g', 15);
+            answer << QString::number(query->value(3).toInt(), 'g', 15);
             answer << query->value(4).toString();
             answer << query->value(5).toString();
-            answer << query->value(6).toString();
-            answer << query->value(7).toString();
+            answer << QString::number(query->value(6).toInt(), 'g', 15);
+            answer << QString::number(query->value(7).toInt(), 'g', 15);
+
             answers << answer;
         }
 

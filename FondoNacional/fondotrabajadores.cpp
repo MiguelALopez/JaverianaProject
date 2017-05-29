@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QList>
 #include <QDate>
+#include <QMessageBox>
 #include "daocredito.h"
 #include "daoauxilio.h"
 #include "daoahorro.h"
@@ -54,9 +55,11 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
 
     DAOFondo daofondo;
     QList<QString> consultaFondo = daofondo.ConsultarPropiedadesCredito();
+
+    QList<QString> fondo = daofondo.ConsultarFondo();
     int tmax = consultaFondo[3].toInt();
     double antig = consultaFondo[4].toDouble();
-    double montomax = consultaFondo[2].toDouble();
+    double montomax = consultaFondo[2].toDouble() * fondo[1].toDouble();
 
     for(int i=0; i<consulta.length(); i++){
         DAOUsuario daousuario;
@@ -113,11 +116,11 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
         }else if(cat4 == 4){
             puntos += 20;
         }
-
+        qDebug() << "cantidad de puntos: " << puntos;
         if((puntos >= 200) && (tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble())){
             qDebug() << "Se aprueba" << puntos << ((tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble()));
             DAOCredito daocredito1;
-            daocredito1.ActualizarEstado(consulta[i][0], "Aprobado");
+            daocredito1.ActualizarEstado(consulta[i][0], "Aprobado", consulta[i][5]);
 
             DAONotificacion daoNotificacion;
             QString param[4];
@@ -128,7 +131,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             daoNotificacion.CrearNotificacion(param);
         }else{
             DAOCredito daocredito1;
-            daocredito1.ActualizarEstado(consulta[i][0], "Rechazado");
+            daocredito1.ActualizarEstado(consulta[i][0], "Rechazado", "0");
 
             DAONotificacion daoNotificacion;
             QString param[4];
@@ -137,10 +140,10 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             param[2] = QDate::currentDate().toString("yyyy-M-d");
             param[3] = consulta[i][13];
             daoNotificacion.CrearNotificacion(param);
-            qDebug() << "raffo";
 //            qDebug() << "Se reprueba" << puntos << (tmax>=consulta[i][8].toInt()) << (antig<=consulta[i][4].toDouble()) << (montomax>=consulta[i][5].toDouble());
         }
     }
+    QMessageBox::information(this, "Info", "Se acaban de analizar "  + QString::number(consulta.size()) + " creditos");
 }
 
 void FondoTrabajadores::on_bAuxAceptar_clicked()
@@ -153,10 +156,13 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
 
     DAOFondo daofondo;
     QList<QString> consultaFondo = daofondo.ConsultarPropiedadesAuxilio();
-    double maxValor = consultaFondo[4].toDouble();
+
 
     double smmlv = daofondo.ConsultarFondo()[1].toDouble();
-
+    double tasaCala = consultaFondo[1].toDouble() / 100.0;
+    double tasaEdu = consultaFondo[2].toDouble() / 100.0;
+    double maxCala = consultaFondo[3].toDouble();
+    double maxValor = consultaFondo[4].toDouble();
 
     for(int i=0; i<consulta.length(); i++){
         DAOAuxilio daoauxilio2;
@@ -166,17 +172,19 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
         QString ed = "Educativo";
         QString cal = "Calamidad";
         if (consulta[i][1] == ed){
-            monto = smmlv * 0.2;
+            monto = smmlv * tasaEdu;
         } else if (consulta[i][1] == cal){
-            if (consulta[i][2].toDouble() * 0.5 >= smmlv * 2.0)
-                monto = smmlv*2.0;
+            qDebug() << "Calamidad";
+            if (consulta[i][2].toDouble() * tasaCala >= smmlv * maxCala)
+                monto = smmlv*maxCala;
             else
-                monto = consulta[i][2].toDouble() * 0.5;
+                monto = consulta[i][2].toDouble() * tasaCala;
         }
         else {
             monto = maxValor + 1;
         }
 
+        qDebug() << "maxValor: " << maxValor << " cuenta+monto: " << cuenta+monto;
         if((maxValor>=cuenta+monto) && (qrand() % 2 == 1))
         {
             qDebug() << (maxValor>=cuenta) << (qrand() % 2 == 1);
@@ -193,7 +201,7 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
         else
         {
 
-            daoauxilio2.ActualizarEstado(consulta[i][0], "Rechazado", QString::number(monto));
+            daoauxilio2.ActualizarEstado(consulta[i][0], "Rechazado", QString::number(0));
 
             DAONotificacion daoNotificacion;
             QString param[4];
@@ -204,7 +212,7 @@ void FondoTrabajadores::on_bAuxAceptar_clicked()
             daoNotificacion.CrearNotificacion(param);
         }
     }
-
+    QMessageBox::information(this, "Info", "Se acaban de analizar "  + QString::number(consulta.size()) + " auxilios");
 }
 
 void FondoTrabajadores::on_bSalir_clicked()
@@ -247,7 +255,7 @@ void FondoTrabajadores::on_bCredActualizar_clicked()
     ui->lCredNumTotal->setText(QString::number(consulta.length()));
     ui->lCredNumTotal->setEnabled(true);
 
-    ui->lCredValorTotal->setText(QString::number(total));
+    ui->lCredValorTotal->setText(QString::number(total, 'g', 15));
     ui->lCredValorTotal->setEnabled(true);
 }
 
@@ -441,9 +449,14 @@ void FondoTrabajadores::on_tabWidget_currentChanged(int index)
 
 void FondoTrabajadores::on_bFaqResolver_clicked()
 {
-    int id = ui->tFaq->item(ui->tFaq->currentRow(),0)->text().toInt();
-    QString pregunta = ui->tFaq->item(ui->tFaq->currentRow(),1)->text();
-    ResolverPregunta *r = new ResolverPregunta(id, pregunta);
-    r->show();
-    qDebug() << ui->tFaq->item(ui->tFaq->currentRow(),0)->text();
+    if(ui->tFaq->isItemSelected(ui->tFaq->item(ui->tFaq->currentRow(),0))){
+        int id = ui->tFaq->item(ui->tFaq->currentRow(),0)->text().toInt();
+        QString pregunta = ui->tFaq->item(ui->tFaq->currentRow(),1)->text();
+
+        ResolverPregunta *r = new ResolverPregunta(id, pregunta);
+        r->show();
+        qDebug() << ui->tFaq->item(ui->tFaq->currentRow(),0)->text();
+    }else{
+        QMessageBox::information(this, "Info", "Por favor seleccione una referencia");
+    }
 }

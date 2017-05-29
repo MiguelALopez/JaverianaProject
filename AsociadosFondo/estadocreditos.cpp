@@ -50,3 +50,8 @@ void EstadoCreditos::on_bActualizar_clicked(){
         }
     }
 }
+
+void EstadoCreditos::on_bCerrar_clicked()
+{
+    close();
+}

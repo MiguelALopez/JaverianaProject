@@ -14,9 +14,9 @@ Connection::~Connection()
 QSqlDatabase* Connection::connect()
 {
     QString server = "localhost";
-    QString databaseName = "prueba";
-    QString userName = "postgres";
-    QString password = "juand";
+    QString databaseName = "fondo";
+    QString userName = "miguel";
+    QString password = "123456";
     db->setConnectOptions();
     db->setHostName(server);
     db->setDatabaseName(databaseName);

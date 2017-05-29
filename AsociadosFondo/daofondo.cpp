@@ -65,9 +65,9 @@ QList<QString> DAOFondo::ConsultarFondo(){
             qDebug() << "Select failed";
 
         query->next();
-        answer << query->value(0).toString();
-        answer << query->value(1).toString();
-        answer << query->value(2).toString();
+        answer << QString::number(query->value(0).toInt(), 'g', 15);
+        answer << QString::number(query->value(1).toInt(), 'g', 15);
+        answer << QString::number(query->value(2).toInt(), 'g', 15);
 
         delete query;
         return answer;
@@ -85,7 +85,7 @@ void DAOFondo::ActualizarPropiedadesAhorro(QString params[2]){
         query->setForwardOnly(true);
 
         // Update usuarios
-        if( !query->prepare(QString("UPDATE propiedades_ahorro set propiedades_ahorro_tasamax=?, propiedades_ahorro_tasamin=? where fondo_id =1 and propiedades_ahorro_id = ")) )
+        if( !query->prepare(QString("UPDATE propiedades_ahorro set propiedades_ahorro_tasamax=?, propiedades_ahorro_tasamin=? where fondo_id =1 and propiedades_ahorro_id =1 ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -128,10 +128,10 @@ QList<QString> DAOFondo::ConsultarPropiedadesAhorro(){
             qDebug() << "Select failed";
 
         query->next();
-        answer << query->value(0).toString();
-        answer << query->value(1).toString();
-        answer << query->value(2).toString();
-        answer << query->value(3).toString();
+        answer << QString::number(query->value(0).toInt(), 'g', 15);
+        answer << QString::number(query->value(1).toInt(), 'g', 15);
+        answer << QString::number(query->value(2).toInt(), 'g', 15);
+        answer << QString::number(query->value(3).toInt(), 'g', 15);
 
         delete query;
         return answer;
@@ -201,15 +201,15 @@ QList<QString> DAOFondo::ConsultarPropiedadesCredito(){
             qDebug() << "Select failed";
 
         query->next();
-        answer << query->value(0).toString();
-        answer << query->value(1).toString();
-        answer << query->value(2).toString();
-        answer << query->value(3).toString();
-        answer << query->value(4).toString();
-        answer << query->value(5).toString();
-        answer << query->value(6).toString();
-        answer << query->value(7).toString();
-        answer << query->value(8).toString();
+        answer << QString::number(query->value(0).toInt(), 'g', 15);
+        answer << QString::number(query->value(1).toInt(), 'g', 15);
+        answer << QString::number(query->value(2).toInt(), 'g', 15);
+        answer << QString::number(query->value(3).toInt(), 'g', 15);
+        answer << QString::number(query->value(4).toInt(), 'g', 15);
+        answer << QString::number(query->value(5).toInt(), 'g', 15);
+        answer << QString::number(query->value(6).toInt(), 'g', 15);
+        answer << QString::number(query->value(7).toInt(), 'g', 15);
+        answer << QString::number(query->value(8).toInt(), 'g', 15);
 
         delete query;
         return answer;
@@ -237,7 +237,7 @@ void DAOFondo::ActualizarPropiedadesAuxilio(QString params[4]){
             query->addBindValue(params[0]);
             query->addBindValue(params[1]);
             query->addBindValue(params[2]);
-            query->addBindValue(params[4]);
+            query->addBindValue(params[3]);
         }
 
         bool result = connection->executeUpdate(query);
@@ -262,7 +262,7 @@ QList<QString> DAOFondo::ConsultarPropiedadesAuxilio(){
 
         // Select empty usuario table
         if( !query->prepare(QString("SELECT propiedades_auxilio_id, propiedades_auxilio_tasa_calamidad, propiedades_auxilio_tasa_educacion,"
-                                    "propiedades_auxilio_aux_max_calamidad, propiedades_auxilio_valor_max_aux from propiedades_auxilio where fondo_id = ? ")) )
+                                    "propiedades_auxilio_aux_max_calamidad, propiedades_auxilio_valor_max_aux from propiedades_auxilio where fondo_id =1 ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
@@ -274,9 +274,11 @@ QList<QString> DAOFondo::ConsultarPropiedadesAuxilio(){
             qDebug() << "Select failed";
 
         query->next();
-        answer << query->value(0).toString();
-        answer << query->value(1).toString();
-        answer << query->value(2).toString();
+        answer << QString::number(query->value(0).toInt(), 'g', 15);
+        answer << QString::number(query->value(1).toInt(), 'g', 15);
+        answer << QString::number(query->value(2).toInt(), 'g', 15);
+        answer << QString::number(query->value(3).toInt(), 'g', 15);
+        answer << QString::number(query->value(4).toInt(), 'g', 15);
 
         delete query;
         return answer;

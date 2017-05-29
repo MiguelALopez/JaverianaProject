@@ -42,6 +42,7 @@ void Registrar::on_bAceptar_clicked()
     QString correo = ui->lCorreo->text();
     QString ingresos = ui->lIngresos->text();
 
+
     params[0] = cedula;
     params[1] = password;
     params[2] = nombre;
@@ -55,7 +56,7 @@ void Registrar::on_bAceptar_clicked()
     params[10] = ingresos;
 
 
-    if(Validador().validarUsuario(cedula, telefono, correo, ingresos, NULL)){
+    if(Validador().validarUsuario(nombre, apellido, cedula, password, telefono, direccion, sexo, estado, correo, ingresos, NULL)){
         DAOUsuario daoUsuario;
         daoUsuario.CrearUsuario(params);
         QMessageBox::information(this, "Exito","El usuario fue creado con exito");

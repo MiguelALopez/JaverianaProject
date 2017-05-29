@@ -58,20 +58,21 @@ void DAOCredito::CrearCredito(QString params[12]){
     }
 }
 
-void DAOCredito::ActualizarEstado(QString referencia, QString estado){
+void DAOCredito::ActualizarEstado(QString referencia, QString estado, QString valor){
     if(db->open()) {
 
         QSqlQuery* query = new QSqlQuery(*db);
         query->setForwardOnly(true);
 
         // Update usuarios
-        if( !query->prepare(QString("UPDATE credito set credito_estado=?, where credito_referencia=? ")) )
+        if( !query->prepare(QString("UPDATE credito set credito_estado=?, credito_valor_aprobacion=? where credito_referencia=? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
         else
         {
             query->addBindValue(estado);
+            query->addBindValue(valor);
             query->addBindValue(referencia);
         }
 
@@ -88,7 +89,7 @@ void DAOCredito::ActualizarEstado(QString referencia, QString estado){
     }
 }
 
-QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString fechaFin){
+QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString fechaFin, QString estado){
     QList<QList<QString>> answers;
     if(db->open()) {
 
@@ -96,12 +97,13 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
         query->setForwardOnly(true);
 
         // Select empty usuario table
-        if( !query->prepare(QString("SELECT * from credito where credito_fecha between ? and ? ")) )
+        if( !query->prepare(QString("SELECT * from credito where credito_estado=? and credito_fecha between ? and ? ")) )
         {
             qDebug() <<"Error = " << db->lastError().text();
         }
         else
         {
+            query->addBindValue(estado);
             query->addBindValue(fechaInicio);
             query->addBindValue(fechaFin);
         }
@@ -115,20 +117,20 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString fechaInicio, QString 
 
         while(query->next()){
             QList<QString> answer;
-            answer << query->value(0).toString();
-            answer << query->value(1).toString();
+            answer << QString::number(query->value(0).toInt(), 'g', 15);
+            answer << QString::number(query->value(1).toInt(), 'g', 15);
             answer << query->value(2).toString();
-            answer << query->value(3).toString();
-            answer << query->value(4).toString();
-            answer << query->value(5).toString();
-            answer << query->value(6).toString();
-            answer << query->value(7).toString();
-            answer << query->value(8).toString();
-            answer << query->value(9).toString();
+            answer << QString::number(query->value(3).toInt(), 'g', 15);
+            answer << QString::number(query->value(4).toInt(), 'g', 15);
+            answer << QString::number(query->value(5).toInt(), 'g', 15);
+            answer << QString::number(query->value(6).toInt(), 'g', 15);
+            answer << QString::number(query->value(7).toInt(), 'g', 15);
+            answer << QString::number(query->value(8).toInt(), 'g', 15);
+            answer << QString::number(query->value(9).toInt(), 'g', 15);
             answer << query->value(10).toString();
             answer << query->value(11).toString();
-            answer << query->value(12).toString();
-            answer << query->value(13).toString();
+            answer << QString::number(query->value(12).toInt(), 'g', 15);
+            answer << QString::number(query->value(13).toInt(), 'g', 15);
             answers << answer;
         }
 
@@ -164,20 +166,20 @@ QList<QList<QString>> DAOCredito::ConsultarCredito(QString cedula){
 
         while(query->next()){
             QList<QString> answer;
-            answer << query->value(0).toString();
-            answer << query->value(1).toString();
+            answer << QString::number(query->value(0).toInt(), 'g', 15);
+            answer << QString::number(query->value(1).toInt(), 'g', 15);
             answer << query->value(2).toString();
-            answer << query->value(3).toString();
-            answer << query->value(4).toString();
-            answer << query->value(5).toString();
-            answer << query->value(6).toString();
-            answer << query->value(7).toString();
-            answer << query->value(8).toString();
-            answer << query->value(9).toString();
+            answer << QString::number(query->value(3).toInt(), 'g', 15);
+            answer << QString::number(query->value(4).toInt(), 'g', 15);
+            answer << QString::number(query->value(5).toInt(), 'g', 15);
+            answer << QString::number(query->value(6).toInt(), 'g', 15);
+            answer << QString::number(query->value(7).toInt(), 'g', 15);
+            answer << QString::number(query->value(8).toInt(), 'g', 15);
+            answer << QString::number(query->value(9).toInt(), 'g', 15);
             answer << query->value(10).toString();
             answer << query->value(11).toString();
-            answer << query->value(12).toString();
-            answer << query->value(13).toString();
+            answer << QString::number(query->value(12).toInt(), 'g', 15);
+            answer << QString::number(query->value(13).toInt(), 'g', 15);
             answers << answer;
         }
 

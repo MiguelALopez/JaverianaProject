@@ -19,6 +19,8 @@ public:
 private slots:
     void on_bActualizar_clicked();
 
+    void on_bCerrar_clicked();
+
 private:
     Ui::EstadoCreditos *ui;
     QString cedula;

@@ -27,7 +27,7 @@ EstadoAhorro::EstadoAhorro(QString cedula, QWidget *parent) :
             ui->tAhorros->setItem(i, j, new QTableWidgetItem(dato));
         }
     }
-    ui->lTotalAhorro->setText(QString::number(total));
+    ui->lTotalAhorro->setText(QString::number(total, 'g', 15));
     ui->lTotalAhorro->setEnabled(true);
 }
 
@@ -55,4 +55,9 @@ void EstadoAhorro::on_bActualizar_clicked(){
     }
     ui->lTotalAhorro->setText(QString::number(total));
     ui->lTotalAhorro->setEnabled(true);
+}
+
+void EstadoAhorro::on_bCerrar_clicked()
+{
+    close();
 }

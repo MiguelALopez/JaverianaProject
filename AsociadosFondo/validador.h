@@ -8,7 +8,8 @@ class Validador
 {
 public:
     Validador();
-    bool validarUsuario(QString cedula, QString telefono, QString correo, QString ingresos, QWidget *window);
+    bool validarUsuario(QString nombre, QString apellido, QString cedula, QString password, QString telefono,
+                        QString direccion, QString sexo, QString estado, QString correo, QString ingresos, QWidget *window);
 };
 
 #endif // VALIDADOR_H

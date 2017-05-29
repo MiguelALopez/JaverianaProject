@@ -20,9 +20,9 @@ EstadosAuxilio::EstadosAuxilio(QString cedula, QWidget *parent) :
             if (j==0)
                 dato = consulta[i][4];
             if (j==1)
-                dato = consulta[i][3];
-            if (j==2)
                 dato = consulta[i][5];
+            if (j==2)
+                dato = consulta[i][3];
             ui->tAuxilios->setItem(i, j, new QTableWidgetItem(dato));
         }
     }
@@ -43,10 +43,15 @@ void EstadosAuxilio::on_bActualizar_clicked(){
             if (j==0)
                 dato = consulta[i][4];
             if (j==1)
-                dato = consulta[i][3];
-            if (j==2)
                 dato = consulta[i][5];
+            if (j==2)
+                dato = consulta[i][3];
             ui->tAuxilios->setItem(i, j, new QTableWidgetItem(dato));
         }
     }
+}
+
+void EstadosAuxilio::on_bCerrar_clicked()
+{
+    close();
 }
