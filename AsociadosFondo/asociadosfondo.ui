@@ -504,7 +504,7 @@
               <item row="3" column="0">
                <widget class="QLabel" name="label_11">
                 <property name="text">
-                 <string>Numero Meses</string>
+                 <string>Tiempo en el fondo</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -545,7 +545,7 @@
            <item>
             <widget class="QPushButton" name="bCredSolicitud">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1189,8 +1189,18 @@
                   <second>0</second>
                   <year>2017</year>
                   <month>1</month>
-                  <day>1</day>
+                  <day>20</day>
                  </datetime>
+                </property>
+                <property name="displayFormat">
+                 <string>dd/MM/yyyy</string>
+                </property>
+                <property name="date">
+                 <date>
+                  <year>2017</year>
+                  <month>1</month>
+                  <day>20</day>
+                 </date>
                 </property>
                </widget>
               </item>

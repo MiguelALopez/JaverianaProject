@@ -75,7 +75,7 @@ QList<QList<QString>> DAOAhorro::ConsultarAhorro(QString fechaInicio, QString fe
         while(query->next()){
             QList<QString> answer;
             answer << query->value(0).toString();
-            answer << query->value(1).toString();
+            answer << QString::number(query->value(1).toDouble(), 'g', 15);
             answer << query->value(2).toString();
             answer << query->value(3).toString();
             answer << query->value(4).toString();
@@ -115,7 +115,7 @@ QList<QList<QString>> DAOAhorro::ConsultarAhorro(QString cedula){
         while(query->next()){
             QList<QString> answer;
             answer << query->value(0).toString();
-            answer << query->value(1).toString();
+            answer << QString::number(query->value(1).toDouble(), 'g', 15);
             answer << query->value(2).toString();
             answer << query->value(3).toString();
             answer << query->value(4).toString();

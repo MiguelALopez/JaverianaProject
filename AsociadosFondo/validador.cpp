@@ -39,12 +39,12 @@ bool Validador::validarUsuario(QString nombre, QString apellido, QString cedula,
         valido = false;
     }
 
-    if(!cedula.toInt()){
+    if(!cedula.toDouble()){
         QMessageBox::information(window, "Error","La cedula solo debe contener numeros");
         valido = false;
     }
 
-    if(!telefono.toInt()){
+    if(!telefono.toDouble()){
         QMessageBox::information(window, "Error","EL telefono solo debe contener numeros");
         valido = false;
     }
@@ -54,8 +54,12 @@ bool Validador::validarUsuario(QString nombre, QString apellido, QString cedula,
         valido = false;
     }
 
-    if(!ingresos.toInt()){
+    if(!ingresos.toDouble()){
         QMessageBox::information(window, "Error","Los ingresos deben ser numericos");
+        valido = false;
+    }
+    if(ingresos.toDouble() && ingresos > 10000000){
+        QMessageBox::information(window, "Error","Los ingresos deben ser menores a 10 millones");
         valido = false;
     }
 

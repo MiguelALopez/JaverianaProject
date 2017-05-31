@@ -2,7 +2,7 @@
 #include "ui_registrar.h"
 #include "validador.h"
 #include "QDebug"
-#include <QIntValidator>
+#include <QDoubleValidator>
 #include <QMessageBox>
 #include <QDate>
 #include "daousuario.h"
@@ -14,9 +14,9 @@ Registrar::Registrar(QWidget *parent) :
     ui->setupUi(this);
 
     // Se restringe estos campos a numericos
-    ui->lCedula->setValidator(new QIntValidator(this));
-    ui->lTelefono->setValidator(new QIntValidator(this));
-    ui->lIngresos->setValidator(new QIntValidator(this));
+    ui->lCedula->setValidator(new QDoubleValidator(this));
+    ui->lTelefono->setValidator(new QDoubleValidator(this));
+    ui->lIngresos->setValidator(new QDoubleValidator(this));
 
 }
 

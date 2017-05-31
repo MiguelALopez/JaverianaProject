@@ -1,6 +1,7 @@
 #include "asociadosfondo.h"
 #include "ui_asociadosfondo.h"
 #include <QIntValidator>
+#include <QDoubleValidator>
 #include <QDebug>
 #include <QMessageBox>
 #include <QDate>
@@ -28,19 +29,19 @@ AsociadosFondo::AsociadosFondo(QString cedula, QWidget *parent) :
     ui->lSimMonto->setValidator(new QIntValidator(0, 50000000, this));
     ui->lSimNumCuota->setValidator(new QIntValidator(this));
 
-    ui->lCredFamilia->setValidator(new QIntValidator(this));
-    ui->lCredTel->setValidator(new QIntValidator(this));
+    ui->lCredFamilia->setValidator(new QDoubleValidator(this));
+    ui->lCredTel->setValidator(new QDoubleValidator(this));
     ui->lCredTiempo->setValidator(new QIntValidator(this));
-    ui->lCredGastos->setValidator(new QIntValidator(this));
-    ui->lCredPrestamo->setValidator(new QIntValidator(this));
+    ui->lCredGastos->setValidator(new QDoubleValidator(this));
+    ui->lCredPrestamo->setValidator(new QDoubleValidator(this));
     ui->lCredPlazo->setValidator(new QIntValidator(this));
     ui->lCredMeses->setValidator(new QIntValidator(this));
 
     ui->lAuxValor->setValidator(new QIntValidator(this));
 
-    ui->lUserCedula->setValidator(new QIntValidator(this));
-    ui->lUserTelefono->setValidator(new QIntValidator(this));
-    ui->lUserIngresos->setValidator(new QIntValidator(this));
+    ui->lUserCedula->setValidator(new QDoubleValidator(this));
+    ui->lUserTelefono->setValidator(new QDoubleValidator(this));
+    ui->lUserIngresos->setValidator(new QDoubleValidator(this));
 }
 
 AsociadosFondo::~AsociadosFondo()

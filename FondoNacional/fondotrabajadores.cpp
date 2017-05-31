@@ -61,10 +61,12 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
     double antig = consultaFondo[4].toDouble();
     double montomax = consultaFondo[2].toDouble() * fondo[1].toDouble();
 
+
     for(int i=0; i<consulta.length(); i++){
         DAOUsuario daousuario;
         double ingresos = daousuario.ConsultarUsuario(consulta[i][13])[10].toDouble();
         double gastos = consulta[i][6].toDouble();
+        double ingresosFamiliares = consulta[i][1].toDouble();
 
         int puntos = 0;
 
@@ -116,9 +118,49 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
         }else if(cat4 == 4){
             puntos += 20;
         }
-        qDebug() << "cantidad de puntos: " << puntos;
-        if((puntos >= 200) && (tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble())){
-            qDebug() << "Se aprueba" << puntos << ((tmax>=consulta[i][8].toInt()) && (antig<=consulta[i][4].toDouble()) && (montomax>=consulta[i][5].toDouble()));
+        bool valido = true;
+        QString motivo = "";
+        if(puntos <  200){
+            valido = false;
+            motivo += "No alcanzo el puntaje";
+        }
+        if(tmax < consulta[i][7].toInt()){
+            valido = false;
+            if(motivo != ""){
+                motivo += ", Superado el maximo de cuotas";
+            }else{
+                motivo += "Superado el maximo de cuotas";
+            }
+        }
+
+        if(antig > consulta[i][8].toDouble()){
+            valido = false;
+            if(motivo!= ""){
+                motivo += ", No cumple con la antiguedad";
+            }else{
+                motivo += "No cumple con la antiguedad";
+            }
+
+        }
+        if(montomax < consulta[i][5].toDouble()){
+            valido = false;
+            if(motivo != ""){
+                motivo += ", Supero el monto maximo";
+            }else{
+                motivo += "Supero el monto maximo";
+            }
+        }
+        if(gastos > ingresosFamiliares){
+            valido = false;
+            if(motivo != ""){
+                motivo += ", Los gastos superan los ingresos familiares";
+            }else{
+                motivo += "Los gastos superan los ingresos familiares";
+            }
+        }
+
+
+        if(valido){
             DAOCredito daocredito1;
             daocredito1.ActualizarEstado(consulta[i][0], "Aprobado", consulta[i][5]);
 
@@ -136,7 +178,7 @@ void FondoTrabajadores::on_bCredAceptar_clicked()
             DAONotificacion daoNotificacion;
             QString param[4];
             param[0] = "Aprobación credito";
-            param[1] = "Su credito fue rechazado";
+            param[1] = "Su credito fue rechazado, motivo: " + motivo;
             param[2] = QDate::currentDate().toString("yyyy-M-d");
             param[3] = consulta[i][13];
             daoNotificacion.CrearNotificacion(param);
@@ -333,7 +375,7 @@ void FondoTrabajadores::on_bAhoActualizar_clicked()
             ui->tAhorro->setItem(i, j, new QTableWidgetItem(dato));
         }
     }
-    ui->lAhoValorTotal->setText(QString::number(total));
+    ui->lAhoValorTotal->setText(QString::number(total, 'g', 15));
     ui->lAhoNumTotal->setText(QString::number(consulta.length()));
 }
 

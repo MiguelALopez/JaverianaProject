@@ -130,8 +130,18 @@
              <second>0</second>
              <year>2017</year>
              <month>1</month>
-             <day>1</day>
+             <day>20</day>
             </datetime>
+           </property>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="date">
+            <date>
+             <year>2017</year>
+             <month>1</month>
+             <day>20</day>
+            </date>
            </property>
           </widget>
          </item>
